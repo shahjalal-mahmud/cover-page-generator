@@ -1,4 +1,6 @@
-export const defaultTemplate = (formData) => {
+import React from 'react';
+
+const DefaultTemplate = ({ formData }) => {
   return (
     <div className="bg-white text-gray-800 p-8 min-h-[297mm] w-[210mm] mx-auto shadow-2xl">
       {/* University Header */}
@@ -78,3 +80,5 @@ export const defaultTemplate = (formData) => {
     </div>
   );
 };
+
+export { DefaultTemplate as defaultTemplate };

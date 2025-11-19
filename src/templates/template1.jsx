@@ -1,4 +1,6 @@
-export const template1 = (formData) => {
+import React from 'react';
+
+const Template1 = ({ formData }) => {
   return (
     <div className="bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-800 p-12 min-h-[297mm] w-[210mm] mx-auto shadow-2xl rounded-lg">
       {/* Header with gradient */}
@@ -61,3 +63,5 @@ export const template1 = (formData) => {
     </div>
   );
 };
+
+export { Template1 as template1 };
