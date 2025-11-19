@@ -2,18 +2,19 @@ import { useState } from 'react';
 import InputForm from './components/InputForm';
 import CoverPagePreview from './components/CoverPagePreview';
 import TemplateSelector from './components/TemplateSelector';
+import { clearForm } from './utils/formHelpers';
 
 function App() {
   const [formData, setFormData] = useState({
     // University Information
-    universityName: 'University of Example',
+    universityName: 'North South University',
     universityLogo: '',
     departmentName: 'Computer Science & Engineering',
     
     // Assignment Information
     documentType: 'Assignment',
     documentNumber: '01',
-    topic: 'Sample Assignment Topic',
+    topic: 'Analysis of Data Structures and Algorithms',
     courseTitle: 'Data Structures',
     courseCode: 'CSE-201',
     
@@ -41,6 +42,10 @@ function App() {
     }));
   };
 
+  const handleClearForm = () => {
+    setFormData(clearForm());
+  };
+
   return (
     <div className="min-h-screen bg-base-200">
       <div className="container mx-auto px-4 py-8">
@@ -66,7 +71,8 @@ function App() {
           <div>
             <InputForm 
               formData={formData} 
-              onFormChange={handleFormChange} 
+              onFormChange={handleFormChange}
+              onClearForm={handleClearForm}
             />
           </div>
 
