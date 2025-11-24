@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import HomePage from './pages/HomePage';
 import { clearForm } from './utils/formHelpers';
 
@@ -33,6 +33,29 @@ function App() {
 
   const [currentTemplate, setCurrentTemplate] = useState('default');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [theme, setTheme] = useState('light');
+
+  // Initialize theme from localStorage or system preference
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else if (systemPrefersDark) {
+      setTheme('dark');
+    }
+  }, []);
+
+  // Apply theme to document
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
 
   const handleFormChange = (field, value) => {
     setFormData(prev => ({
@@ -49,10 +72,8 @@ function App() {
   if (typeof window !== 'undefined') {
     window.generateCoverPreview = (data) => {
       setIsGenerating(true);
-      // Simulate generation process
       setTimeout(() => {
         setIsGenerating(false);
-        // Scroll to preview section
         document.getElementById('preview-section')?.scrollIntoView({ 
           behavior: 'smooth' 
         });
@@ -61,14 +82,18 @@ function App() {
   }
 
   return (
-    <HomePage
-      formData={formData}
-      currentTemplate={currentTemplate}
-      isGenerating={isGenerating}
-      onFormChange={handleFormChange}
-      onTemplateChange={setCurrentTemplate}
-      onClearForm={handleClearForm}
-    />
+    <div data-theme={theme}>
+      <HomePage
+        formData={formData}
+        currentTemplate={currentTemplate}
+        isGenerating={isGenerating}
+        theme={theme}
+        onThemeToggle={toggleTheme}
+        onFormChange={handleFormChange}
+        onTemplateChange={setCurrentTemplate}
+        onClearForm={handleClearForm}
+      />
+    </div>
   );
 }
 

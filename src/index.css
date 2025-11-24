@@ -3,3 +3,4 @@
 @tailwind utilities;
 
 /* OPTIONAL DaisyUI config */
+@plugin "daisyui";
