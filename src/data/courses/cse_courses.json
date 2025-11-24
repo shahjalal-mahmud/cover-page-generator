@@ -1,0 +1,194 @@
+{
+  "semesters": [
+    {
+      "semester": "1 (OBE)",
+      "courses": [
+        { "course_code": "CSE 1101", "course_title": "Introduction to Computers", "credit": 2, "dept": "CSE" },
+        { "course_code": "CSE 1103", "course_title": "Structured Programming Language", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 1104", "course_title": "Structured Programming Language Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "MATH 1101", "course_title": "Mathematics I : Differential Calculus and Integral Calculus", "credit": 3, "dept": "MATH" },
+        { "course_code": "PHY 1101", "course_title": "Physics I : Heat and Thermodynamics, Properties of Matters, Waves and Oscillations", "credit": 3, "dept": "PHY" },
+        { "course_code": "CHEM 1101", "course_title": "Chemistry", "credit": 3, "dept": "CHEM" },
+        { "course_code": "CHEM 1102", "course_title": "Chemistry Lab", "credit": 1, "dept": "CHEM" },
+        { "course_code": "ENG 1105", "course_title": "English Language I : Communicative Skill", "credit": 3, "dept": "ENG" },
+        { "course_code": "GED 1101", "course_title": "Government and Sociology", "credit": 2, "dept": "GED" }
+      ],
+      "sections": [
+        { "section": "1A", "evening": false },
+        { "section": "1B", "evening": false },
+        { "section": "1C", "evening": false },
+        { "section": "1D", "evening": false },
+        { "section": "1E", "evening": false },
+        { "section": "1F", "evening": false },
+        { "section": "1G", "evening": false },
+        { "section": "1H", "evening": false },
+        { "section": "1P", "evening": true }
+      ]
+    },
+    {
+      "semester": "2 (OBE)",
+      "courses": [
+        { "course_code": "CSE 1201", "course_title": "Object - Oriented Programming I", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 1202", "course_title": "Object - Oriented Programming I Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 1205", "course_title": "Digital Logic Design", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 1206", "course_title": "Digital Logic Design Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "MATH 1203", "course_title": "Mathematics II : Matrices, Vectors and Coordinate Geometry", "credit": 3, "dept": "MATH" },
+        { "course_code": "PHY 1201", "course_title": "Physics II : Electromagnetism, Optics and Modern Physics", "credit": 3, "dept": "PHY" },
+        { "course_code": "PHY 1202", "course_title": "Physics II Lab", "credit": 1, "dept": "PHY" },
+        { "course_code": "ENG 1205", "course_title": "English Language II : Listening, Speaking, Reading and Writing", "credit": 3, "dept": "ENG" },
+        { "course_code": "GED 1201", "course_title": "Media and Information Technology Law", "credit": 2, "dept": "GED" }
+      ],
+      "sections": [
+        { "section": "2A", "evening": false },
+        { "section": "2B", "evening": false },
+        { "section": "2C", "evening": false },
+        { "section": "2D", "evening": false },
+        { "section": "2P", "evening": true }
+      ]
+    },
+    {
+      "semester": "3 (OBE)",
+      "courses": [
+        { "course_code": "CSE 2101", "course_title": "Data Structure", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 2102", "course_title": "Data Structure Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 2105", "course_title": "Discrete Mathematics", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 2109", "course_title": "Object - Oriented Programming II", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 2110", "course_title": "Object - Oriented Programming II Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "EEE 2101", "course_title": "Electrical Engineering and Circuit Analysis", "credit": 3, "dept": "EEE" },
+        { "course_code": "EEE 2102", "course_title": "Electrical Engineering and Circuit Analysis Lab", "credit": 1, "dept": "EEE" },
+        { "course_code": "MATH 2103", "course_title": "Mathematics III : Differential Equation and Fourier Analysis", "credit": 3, "dept": "MATH" }
+      ],
+      "sections": [
+        { "section": "3A", "evening": false },
+        { "section": "3B", "evening": false },
+        { "section": "3C", "evening": false },
+        { "section": "3D", "evening": false },
+        { "section": "3E", "evening": false },
+        { "section": "3F", "evening": false },
+        { "section": "3P", "evening": true }
+      ]
+    },
+    {
+      "semester": "4 (OBE)",
+      "courses": [
+        { "course_code": "CSE 2211", "course_title": "Algorithms Design and Analysis", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 2212", "course_title": "Algorithms Design and Analysis Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 2213", "course_title": "Numerical Methods", "credit": 2, "dept": "CSE" },
+        { "course_code": "CSE 2214", "course_title": "Numerical Methods Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 2216", "course_title": "Software Development I", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 2217", "course_title": "Computer Architecture", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 2209", "course_title": "Information System and Design", "credit": 2, "dept": "CSE" },
+        { "course_code": "MATH 2201", "course_title": "Mathematics IV : Complex Variable and Laplace Transformation", "credit": 3, "dept": "MATH" },
+        { "course_code": "IPE 2201", "course_title": "Industrial Management", "credit": 2, "dept": "IPE" },
+        { "course_code": "GED 2205", "course_title": "Economics", "credit": 2, "dept": "GED" },
+        { "course_code": "CSE 2201", "course_title": "Linear Programming And Combinatorial Optimization", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 2202", "course_title": "Linear Programming And Combinatorial Optimization Labs", "credit": 1, "dept": "CSE" }
+      ],
+      "sections": [
+        { "section": "4A", "evening": false },
+        { "section": "4B", "evening": false },
+        { "section": "4P", "evening": true }
+      ]
+    },
+    {
+      "semester": "5 (OBE)",
+      "courses": [
+        { "course_code": "CSE 3103", "course_title": "Database Management System", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 3104", "course_title": "Database Management System Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 3107", "course_title": "Operating System", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 3108", "course_title": "Operating System Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 3109", "course_title": "Software Engineering", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 3111", "course_title": "Microprocessor and Microcontroller", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 3112", "course_title": "Microprocessor and Microcontroller Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 3113", "course_title": "Data Communication", "credit": 3, "dept": "CSE" },
+        { "course_code": "MATH 3103", "course_title": "Mathematics V : Probability and Statistics for Engineers", "credit": 2, "dept": "MATH" },
+        { "course_code": "MATH 3104", "course_title": "Probability and Statistics for Engineers Lab", "credit": 1, "dept": "MATH" }
+      ],
+      "sections": [
+        { "section": "5A", "evening": false },
+        { "section": "5B", "evening": false },
+        { "section": "5C", "evening": false },
+        { "section": "5D", "evening": false },
+        { "section": "5E", "evening": false },
+        { "section": "5F", "evening": false },
+        { "section": "5G", "evening": false },
+        { "section": "5P", "evening": true },
+        { "section": "5Q", "evening": true }
+      ]
+    },
+    {
+      "semester": "6 (OBE)",
+      "courses": [
+        { "course_code": "CSE 3200", "course_title": "Technical Writing and Presentation", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 3202", "course_title": "Software Development II : Web Development", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 3207", "course_title": "Mathematical Analysis for Computer Science", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 3211", "course_title": "Computer Networks", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 3212", "course_title": "Computer Networks Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 3213", "course_title": "Digital Image Processing", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 3214", "course_title": "Digital Image Processing Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 3215", "course_title": "Communication Engineering", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 3217", "course_title": "Introduction to Bioinformatics", "credit": 3, "dept": "CSE" },
+        { "course_code": "GED 3201", "course_title": "Financial and Managerial Accounting", "credit": 2, "dept": "GED" }
+      ],
+      "sections": [
+        { "section": "6A", "evening": false },
+        { "section": "6B", "evening": false },
+        { "section": "6C", "evening": false },
+        { "section": "6D", "evening": false },
+        { "section": "6P", "evening": true }
+      ]
+    },
+    {
+      "semester": "7",
+      "courses": [
+        { "course_code": "CSE 4100", "course_title": "Field Work/Industrial Training", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 4101", "course_title": "Compiler Design", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 4102", "course_title": "Compiler Design Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 4104", "course_title": "Software Development III", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 4105", "course_title": "Computer Networks", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 4106", "course_title": "Computer Networks Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 4107", "course_title": "Computer Graphics and Multimedia System", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 4108", "course_title": "Computer Graphics and Multimedia System Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 4111", "course_title": "Artificial Intelligence and Expert Systems", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 4112", "course_title": "Artificial Intelligence and Expert Systems Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 3207", "course_title": "Mathematical Analysis for Computer Science", "credit": 3, "dept": "CSE" },
+        { "course_code": "MATH 3101", "course_title": "Mathematics V : Statistics and Probability", "credit": 2, "dept": "MATH" },
+        { "course_code": "PHY 1101", "course_title": "Physics I : Heat and Thermodynamics, Properties of Matters, Waves", "credit": 3, "dept": "PHY" },
+        { "course_code": "GED 2201", "course_title": "Government and Sociology", "credit": 3, "dept": "GED" },
+        { "course_code": "CSE 1101", "course_title": "Introduction to Computers", "credit": 2, "dept": "CSE" },
+        { "course_code": "ENG 1101", "course_title": "English Language I : Sentence & Their Elements", "credit": 0, "dept": "ENG" }
+      ],
+      "sections": [
+        { "section": "7A", "evening": false },
+        { "section": "7B", "evening": false },
+        { "section": "7C", "evening": false },
+        { "section": "7D", "evening": false },
+        { "section": "7P", "evening": true }
+      ]
+    },
+    {
+      "semester": "8",
+      "courses": [
+        { "course_code": "CSE 4200", "course_title": "Project and Thesis", "credit": 4, "dept": "CSE" },
+        { "course_code": "CSE 4201", "course_title": "Embedded System", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 4202", "course_title": "Embedded System Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 4203", "course_title": "Mobile Computing", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 4204", "course_title": "Mobile Computing Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 4205", "course_title": "Neural Network", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 4206", "course_title": "Neural Network Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 4207", "course_title": "Pattern Recognition", "credit": 3, "dept": "CSE" },
+        { "course_code": "CSE 4208", "course_title": "Pattern Recognition Lab", "credit": 1, "dept": "CSE" },
+        { "course_code": "CSE 1203", "course_title": "Discrete Mathematics", "credit": 3, "dept": "CSE" },
+        { "course_code": "ENG 1201", "course_title": "English Language III : Reading & Writing", "credit": 3, "dept": "ENG" },
+        { "course_code": "GED 2203", "course_title": "Economics", "credit": 2, "dept": "GED" },
+        { "course_code": "GED 3101", "course_title": "Financial and Managerial Accounting", "credit": 2, "dept": "GED" }
+      ],
+      "sections": [
+        { "section": "8A", "evening": false },
+        { "section": "8B", "evening": false },
+        { "section": "8C", "evening": false },
+        { "section": "8P", "evening": true }
+      ]
+    }
+  ]
+}
