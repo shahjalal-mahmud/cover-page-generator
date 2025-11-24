@@ -1,249 +1,330 @@
-import { useState } from "react";
-import { FiGrid, FiBookOpen, FiUser, FiUsers, FiCalendar } from "react-icons/fi";
+/* eslint-disable react-hooks/set-state-in-effect */
+import React, { useEffect, useMemo, useState, useCallback } from "react";
+import studentsData from "../data/students/cse_students.json";
+import semestersData from "../data/courses/cse_courses.json";
+import assignmentsData from "../data/assign/cse_course_assign.json";
+import teachersList from "../data/faculty/cse_faculty.json";
 
-const InputForm = ({ formData, onFormChange }) => {
-  const [activeSection, setActiveSection] = useState("university");
+// Import components
+import StudentInfoSection from "../sections/StudentInfoSection";
+import CourseInfoSection from "../sections/CourseInfoSection";
+import TeacherInfoSection from "../sections/TeacherInfoSection";
+import DocumentDetailsSection from "../sections/DocumentDetailsSection";
+import ActionButtons from "../sections/ActionButtons";
+import { FiBookOpen } from "react-icons/fi";
 
-  const handleInput = (field, value) => onFormChange(field, value);
+const docTypes = [
+  "Assignment",
+  "Lab Report",
+  "Project",
+  "Thesis",
+  "Research Paper",
+  "Presentation",
+];
 
-  const sections = [
-    { id: "university", label: "University", icon: <FiGrid /> },
-    { id: "document", label: "Document", icon: <FiBookOpen /> },
-    { id: "student", label: "Student", icon: <FiUser /> },
-    { id: "teacher", label: "Teacher", icon: <FiUsers /> },
-    { id: "date", label: "Date", icon: <FiCalendar /> },
-  ];
+const normalizeCourseCode = (code) => code.replace(/\s+/g, "").toUpperCase();
+
+export default function FastInputForm({ formData, onFormChange }) {
+  const [idError, setIdError] = useState("");
+  const [sectionInput, setSectionInput] = useState(formData.section || "");
+  const [selectedSemester, setSelectedSemester] = useState(() => semestersData.semesters?.[0]?.semester || "");
+  const [availableCourses, setAvailableCourses] = useState([]);
+  const [filteredCourses, setFilteredCourses] = useState([]);
+  const [selectedCourseCode, setSelectedCourseCode] = useState(formData.courseCode || "");
+  const [isIdValidated, setIsIdValidated] = useState(false);
+  const [customDocType, setCustomDocType] = useState("");
+
+  // Wrap setField in useCallback to avoid dependency issues
+  const setField = useCallback((field, value) => {
+    onFormChange(field, value);
+  }, [onFormChange]);
+
+  // Extract semester number from section (e.g., "5C" -> "5")
+  const extractSemesterFromSection = (section) => {
+    const match = section.match(/^(\d+)/);
+    return match ? match[1] : null;
+  };
+
+  // Auto-detect semester when section changes
+  useEffect(() => {
+    const sec = (sectionInput || "").trim().toUpperCase();
+    if (!sec) return;
+
+    const semesterNumber = extractSemesterFromSection(sec);
+    if (semesterNumber) {
+      const matchingSemester = semestersData.semesters.find(sem => 
+        sem.semester.includes(semesterNumber)
+      );
+      if (matchingSemester) {
+        setSelectedSemester(matchingSemester.semester);
+      }
+    }
+  }, [sectionInput]);
+
+  // Student ID handling - auto-fill but allow manual editing
+  useEffect(() => {
+    const id = (formData.studentId || "").trim();
+    
+    if (!id) {
+      setIdError(prev => prev !== "" ? "" : prev);
+      setIsIdValidated(prev => prev !== false ? false : prev);
+      return;
+    }
+
+    if (!/^\d{0,11}$/.test(id)) {
+      setIdError("Only digits allowed (max 11).");
+      setIsIdValidated(false);
+      return;
+    }
+
+    if (id.length < 11) {
+      setIdError("Student ID must be 11 digits.");
+      setIsIdValidated(false);
+      return;
+    }
+
+    if (id.length === 11) {
+      const found = studentsData.students.find((s) => s.studentId === id);
+      if (found) {
+        setField("studentName", found.name);
+        if (studentsData.department) setField("studentDepartment", studentsData.department);
+        setIdError("");
+        setIsIdValidated(true);
+      } else {
+        setField("studentName", "");
+        setField("studentDepartment", studentsData.department || "");
+        setIdError("ID not found - please enter name and department manually.");
+        setIsIdValidated(true);
+      }
+    }
+  }, [formData.studentId, setField]);
+
+  // Get semester data
+  const semesterObj = useMemo(
+    () => semestersData.semesters.find((s) => s.semester === selectedSemester) || semestersData.semesters[0],
+    [selectedSemester]
+  );
+
+  // Build available courses
+  useEffect(() => {
+    if (!semesterObj) return;
+    const courses = (semesterObj.courses || []).map((c) => ({
+      code: c.course_code.trim(),
+      codeNormalized: normalizeCourseCode(c.course_code),
+      title: c.course_title,
+      credit: c.credit,
+      dept: c.dept,
+    }));
+    setAvailableCourses(prev => {
+      const newCourses = JSON.stringify(courses);
+      const prevCourses = JSON.stringify(prev);
+      return newCourses === prevCourses ? prev : courses;
+    });
+  }, [semesterObj]);
+
+  // Filter courses by section
+  useEffect(() => {
+    const sec = (sectionInput || "").trim().toUpperCase();
+    
+    if (!sec) {
+      setFilteredCourses(prev => {
+        const newCourses = JSON.stringify(availableCourses);
+        const prevCourses = JSON.stringify(prev);
+        return newCourses === prevCourses ? prev : availableCourses;
+      });
+      return;
+    }
+
+    const sectionCourses = availableCourses.filter(course => {
+      const courseAssignment = assignmentsData.find(assignment => 
+        assignment.section === sec && 
+        normalizeCourseCode(assignment.courseCode) === course.codeNormalized
+      );
+      return courseAssignment !== undefined;
+    });
+
+    setFilteredCourses(prev => {
+      const newCourses = JSON.stringify(sectionCourses);
+      const prevCourses = JSON.stringify(prev);
+      return newCourses === prevCourses ? prev : sectionCourses;
+    });
+  }, [sectionInput, availableCourses]);
+
+  // Auto-fill teacher info when course is selected
+  useEffect(() => {
+    const code = (selectedCourseCode || "").trim();
+    if (!code) return;
+
+    const course = availableCourses.find(
+      (it) => normalizeCourseCode(it.code) === normalizeCourseCode(code) || it.code === code
+    );
+    
+    if (course) {
+      setField("courseCode", course.code);
+      setField("courseTitle", course.title);
+    }
+
+    const codeNorm = normalizeCourseCode(course?.code || code);
+    const sec = (sectionInput || "").trim().toUpperCase();
+    
+    let teacherAcronym = null;
+
+    if (Array.isArray(assignmentsData)) {
+      const assignment = assignmentsData.find(assign => 
+        assign.section === sec && 
+        normalizeCourseCode(assign.courseCode) === codeNorm
+      );
+      
+      if (assignment) {
+        teacherAcronym = assignment.teacherAcronym;
+      }
+    }
+
+    if (teacherAcronym) {
+      const teacher = teachersList.find((t) => 
+        (t.acronym || "").toUpperCase() === teacherAcronym.toUpperCase()
+      );
+      
+      if (teacher) {
+        setField("teacherName", teacher.name || teacherAcronym);
+        setField("teacherDepartment", teacher.department || "");
+        setField("teacherPosition", teacher.designation || "");
+        setField("teacherMobile", teacher.mobile || "");
+        setField("teacherEmail", teacher.email || "");
+      } else {
+        setField("teacherName", teacherAcronym);
+        setField("teacherDepartment", "");
+        setField("teacherPosition", "");
+        setField("teacherMobile", "");
+        setField("teacherEmail", "");
+      }
+    } else {
+      setField("teacherName", "");
+      setField("teacherDepartment", "");
+      setField("teacherPosition", "");
+      setField("teacherMobile", "");
+      setField("teacherEmail", "");
+    }
+  }, [selectedCourseCode, availableCourses, sectionInput, setField]);
+
+  // Event handlers
+  const onIdChange = (raw) => {
+    const v = raw.replace(/\D/g, "");
+    if (v.length > 11) return;
+    setField("studentId", v);
+  };
+
+  const onSectionChange = (raw) => {
+    const v = raw.trim().toUpperCase();
+    setSectionInput(v);
+    setField("section", v);
+  };
+
+  const onCourseSelect = (value) => {
+    setSelectedCourseCode(value);
+  };
+
+  const onDocTypeChange = (value) => {
+    setField("documentType", value);
+    setCustomDocType(value);
+  };
+
+  const clearForm = () => {
+    setField("studentId", "");
+    setField("studentName", "");
+    setField("studentDepartment", studentsData.department || "");
+    setField("section", "");
+    setSectionInput("");
+    setSelectedCourseCode("");
+    setField("courseTitle", "");
+    setField("courseCode", "");
+    setField("teacherName", "");
+    setField("teacherPosition", "");
+    setField("teacherEmail", "");
+    setField("teacherMobile", "");
+    setField("documentType", "");
+    setField("topic", "");
+    setField("submissionDate", new Date().toISOString().split("T")[0]);
+    setCustomDocType("");
+    setIdError("");
+    setIsIdValidated(false);
+    setSelectedSemester(semestersData.semesters?.[0]?.semester || "");
+  };
+
+  const validateAndGenerate = () => {
+    const errors = [];
+    if (!formData.studentId || formData.studentId.length !== 11) errors.push("Valid Student ID required (11 digits).");
+    if (!formData.studentName || !formData.studentName.trim()) errors.push("Student name required.");
+    if (!formData.courseCode) errors.push("Select course.");
+    if (!formData.documentType) errors.push("Select document type.");
+
+    if (errors.length) {
+      alert("Please fix the following:\n" + errors.join("\n"));
+      return;
+    }
+
+    if (typeof window?.generateCoverPreview === "function") {
+      window.generateCoverPreview(formData);
+    } else {
+      alert("Form validated successfully - ready for cover generation!");
+    }
+  };
 
   return (
     <div className="card bg-base-100 shadow-xl w-full">
       <div className="card-body">
-        <h2 className="card-title text-2xl font-semibold">Cover Page Builder</h2>
-        <p className="text-sm opacity-70 mb-4">
-          Fill the fields to automatically generate your cover page.
-        </p>
-
-        {/* SECTION NAVIGATION */}
-        <div className="flex flex-wrap gap-2 mb-5">
-          {sections.map((sec) => (
-            <button
-              key={sec.id}
-              className={`btn btn-sm flex items-center gap-2 ${
-                activeSection === sec.id ? "btn-primary" : "btn-outline"
-              }`}
-              onClick={() => setActiveSection(sec.id)}
-            >
-              {sec.icon} {sec.label}
-            </button>
-          ))}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="card-title text-2xl font-semibold flex items-center gap-2">
+            <FiBookOpen className="text-primary" /> Cover Page Generator
+          </h2>
+          <div className="badge badge-primary badge-lg">Fast & Easy</div>
         </div>
 
-        {/* FORM SECTIONS */}
-        <div className="space-y-4">
-          {/* University */}
-          {activeSection === "university" && (
-            <div className="grid gap-4">
-              <h3 className="text-lg font-bold border-b pb-2">University Information</h3>
+        {/* Student Information Section */}
+        <StudentInfoSection
+          formData={formData}
+          setField={setField}
+          idError={idError}
+          isIdValidated={isIdValidated}
+          onIdChange={onIdChange}
+        />
 
-              <input
-                type="text"
-                placeholder="University Name"
-                className="input input-bordered"
-                value={formData.universityName}
-                onChange={(e) => handleInput("universityName", e.target.value)}
-              />
+        {/* Course Information Section */}
+        <CourseInfoSection
+          formData={formData}
+          setField={setField}
+          sectionInput={sectionInput}
+          selectedSemester={selectedSemester}
+          filteredCourses={filteredCourses}
+          selectedCourseCode={selectedCourseCode}
+          onSectionChange={onSectionChange}
+          onCourseSelect={onCourseSelect}
+          setSelectedSemester={setSelectedSemester}
+          extractSemesterFromSection={extractSemesterFromSection}
+          semestersData={semestersData}
+        />
 
-              <input
-                type="text"
-                placeholder="Department Name"
-                className="input input-bordered"
-                value={formData.departmentName}
-                onChange={(e) => handleInput("departmentName", e.target.value)}
-              />
+        {/* Teacher Information Section */}
+        <TeacherInfoSection
+          formData={formData}
+          setField={setField}
+        />
 
-              <input
-                type="url"
-                placeholder="Logo URL (optional)"
-                className="input input-bordered"
-                value={formData.universityLogo}
-                onChange={(e) => handleInput("universityLogo", e.target.value)}
-              />
-            </div>
-          )}
+        {/* Document Details Section */}
+        <DocumentDetailsSection
+          formData={formData}
+          setField={setField}
+          customDocType={customDocType}
+          onDocTypeChange={onDocTypeChange}
+          docTypes={docTypes}
+        />
 
-          {/* Document */}
-          {activeSection === "document" && (
-            <div className="grid gap-4">
-              <h3 className="text-lg font-bold border-b pb-2">Document Information</h3>
-
-              <select
-                className="select select-bordered"
-                value={formData.documentType}
-                onChange={(e) => handleInput("documentType", e.target.value)}
-              >
-                <option>Assignment</option>
-                <option>Lab Report</option>
-                <option>Project Report</option>
-                <option>Thesis</option>
-                <option>Research Paper</option>
-                <option>Case Study</option>
-                <option>Presentation</option>
-              </select>
-
-              <input
-                type="text"
-                placeholder="Document Number"
-                className="input input-bordered"
-                value={formData.documentNumber}
-                onChange={(e) => handleInput("documentNumber", e.target.value)}
-              />
-
-              <textarea
-                placeholder="Topic / Title"
-                className="textarea textarea-bordered h-24"
-                value={formData.topic}
-                onChange={(e) => handleInput("topic", e.target.value)}
-              ></textarea>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  placeholder="Course Title"
-                  className="input input-bordered"
-                  value={formData.courseTitle}
-                  onChange={(e) => handleInput("courseTitle", e.target.value)}
-                />
-
-                <input
-                  type="text"
-                  placeholder="Course Code"
-                  className="input input-bordered"
-                  value={formData.courseCode}
-                  onChange={(e) => handleInput("courseCode", e.target.value)}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Student */}
-          {activeSection === "student" && (
-            <div className="grid gap-4">
-              <h3 className="text-lg font-bold border-b pb-2">Student Information</h3>
-
-              <input
-                type="text"
-                placeholder="Full Name"
-                className="input input-bordered"
-                value={formData.studentName}
-                onChange={(e) => handleInput("studentName", e.target.value)}
-              />
-
-              <div className="grid grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  placeholder="Student ID"
-                  className="input input-bordered"
-                  value={formData.studentId}
-                  onChange={(e) => handleInput("studentId", e.target.value)}
-                />
-
-                <input
-                  type="text"
-                  placeholder="Section"
-                  className="input input-bordered"
-                  value={formData.section}
-                  onChange={(e) => handleInput("section", e.target.value)}
-                />
-              </div>
-
-              <input
-                type="text"
-                placeholder="Student Department"
-                className="input input-bordered"
-                value={formData.studentDepartment}
-                onChange={(e) => handleInput("studentDepartment", e.target.value)}
-              />
-            </div>
-          )}
-
-          {/* Teacher */}
-          {activeSection === "teacher" && (
-            <div className="grid gap-4">
-              <h3 className="text-lg font-bold border-b pb-2">Teacher Information</h3>
-
-              <input
-                type="text"
-                placeholder="Teacher Name"
-                className="input input-bordered"
-                value={formData.teacherName}
-                onChange={(e) => handleInput("teacherName", e.target.value)}
-              />
-
-              <select
-                className="select select-bordered"
-                value={formData.teacherPosition}
-                onChange={(e) => handleInput("teacherPosition", e.target.value)}
-              >
-                <option>Lecturer</option>
-                <option>Assistant Professor</option>
-                <option>Associate Professor</option>
-                <option>Professor</option>
-                <option>Dr.</option>
-              </select>
-
-              <input
-                type="text"
-                placeholder="Teacher Department"
-                className="input input-bordered"
-                value={formData.teacherDepartment}
-                onChange={(e) => handleInput("teacherDepartment", e.target.value)}
-              />
-            </div>
-          )}
-
-          {/* Date */}
-          {activeSection === "date" && (
-            <div className="grid gap-4">
-              <h3 className="text-lg font-bold border-b pb-2">Submission Date</h3>
-
-              <input
-                type="date"
-                className="input input-bordered"
-                value={formData.submissionDate}
-                onChange={(e) => handleInput("submissionDate", e.target.value)}
-              />
-
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  className="btn btn-outline btn-sm"
-                  onClick={() =>
-                    handleInput("submissionDate", new Date().toISOString().split("T")[0])
-                  }
-                >
-                  Today
-                </button>
-                <button
-                  className="btn btn-outline btn-sm"
-                  onClick={() => {
-                    const d = new Date();
-                    d.setDate(d.getDate() + 1);
-                    handleInput("submissionDate", d.toISOString().split("T")[0]);
-                  }}
-                >
-                  Tomorrow
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* ACTIONS */}
-        <div className="flex justify-between items-center mt-6">
-          <button className="btn btn-ghost">Clear Form</button>
-          <button className="btn btn-primary">Save Template</button>
-        </div>
+        {/* Action Buttons */}
+        <ActionButtons
+          clearForm={clearForm}
+          validateAndGenerate={validateAndGenerate}
+        />
       </div>
     </div>
   );
-};
-
-export default InputForm;
+}
