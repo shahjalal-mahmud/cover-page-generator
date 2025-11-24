@@ -48,6 +48,14 @@
     "email": "riazmahmudcse@gmail.com"
   },
   {
+    "name": "Md. Deloar Hossain",
+    "acronym": "MDH",
+    "designation": "Assistant Professor",
+    "department": "PHY",
+    "mobile": "01722955229",
+    "email": "deloarku11@gmail.com"
+  },
+  {
     "name": "Ferdib-Al-Islam",
     "acronym": "FAI",
     "designation": "Assistant Professor",
@@ -112,12 +120,36 @@
     "email": "apu.cse.just@gmail.com"
   },
   {
+    "name": "Partha Protim Gharami",
+    "acronym": "PPG",
+    "designation": "Senior Lecturer",
+    "department": "MATH",
+    "mobile": "01737208394",
+    "email": "gharamipartha48@gmail.com"
+  },
+  {
     "name": "Md. Shamim Parvej",
     "acronym": "MSP",
     "designation": "Senior Lecturer",
     "department": "CSE",
     "mobile": "01726779787",
     "email": "bd.shamim.cse@gmail.com"
+  },
+  {
+    "name": "Md. Toufiqul Islam",
+    "acronym": "MTI",
+    "designation": "Senior Lecturer",
+    "department": "PHY",
+    "mobile": "01749483808",
+    "email": "sazon.toufiq@gmail.com"
+  },
+  {
+    "name": "Md. Nazim Uddin",
+    "acronym": "NU",
+    "designation": "Senior Lecturer",
+    "department": "CHEM",
+    "mobile": "01719021062",
+    "email": "nazim15kuet@gmail.com"
   },
   {
     "name": "Md. Abid Afsan Hamid",
@@ -136,12 +168,44 @@
     "email": "vashkarkar@gmail.com"
   },
   {
+    "name": "Nuzhat Tabassum",
+    "acronym": "NT",
+    "designation": "Lecturer",
+    "department": "ENG",
+    "mobile": "01919895282",
+    "email": "nuzhat930@gmail.com"
+  },
+  {
     "name": "Talha Al Junaid",
     "acronym": "TAJ",
     "designation": "Lecturer",
     "department": "CSE",
     "mobile": "01984757758",
     "email": "talha1721@cseku.ac.bd"
+  },
+  {
+    "name": "Md. Mahadi Hasan",
+    "acronym": "MMH",
+    "designation": "Lecturer",
+    "department": "CHEM",
+    "mobile": "01908100808",
+    "email": "mahadihasanku@gmail.com"
+  },
+  {
+    "name": "Nazmus Sakib",
+    "acronym": "NS",
+    "designation": "Lecturer",
+    "department": "PHY",
+    "mobile": "01748153089",
+    "email": "sakib.ku16@gmail.com"
+  },
+  {
+    "name": "Md. Faizur Rahman",
+    "acronym": "MFR",
+    "designation": "Lecturer",
+    "department": "MATH",
+    "mobile": "01921231023",
+    "email": "sbit.khulna@yahoo.com"
   },
   {
     "name": "Rashik Reza Fahim",
@@ -158,6 +222,14 @@
     "department": "CSE",
     "mobile": "01517183118",
     "email": "touhid.cse68@gmail.com"
+  },
+  {
+    "name": "G.M. Mamun Al Imran",
+    "acronym": "GMM",
+    "designation": "Lecturer",
+    "department": "MATH",
+    "mobile": "01934997762",
+    "email": "mamunalimran2@gmail.com"
   },
   {
     "name": "Mst. Farjana Alam",
@@ -200,6 +272,14 @@
     "email": "susmitasejuti124@gmail.com"
   },
   {
+    "name": "Ummay Habiba Mabsuma",
+    "acronym": "UHM",
+    "designation": "Lecturer",
+    "department": "MATH",
+    "mobile": "01720349933",
+    "email": "zamanmabsuma14@gmail.com"
+  },
+  {
     "name": "Md. Zahid Hassan Rabbi",
     "acronym": "ZHR",
     "designation": "Lecturer",
@@ -240,6 +320,14 @@
     "email": "fhr1309@gmail.com"
   },
   {
+    "name": "Pushpa Akhtar",
+    "acronym": "PA",
+    "designation": "Lecturer",
+    "department": "MATH",
+    "mobile": "01734367210",
+    "email": "pushpaakhter92@gmail.com"
+  },
+  {
     "name": "Md. Abdul Halim Khan",
     "acronym": "MAHK",
     "designation": "Lecturer (C)",
@@ -274,7 +362,7 @@
   {
     "name": "Dr. Anwarul Haque Joarder",
     "acronym": "AHJ",
-    "designation": "Pro-VC",
+    "designation": "Pro-VC, NUBTK",
     "department": "CSE",
     "mobile": "01977000805",
     "email": "ajstat@gmail.com"
@@ -282,7 +370,7 @@
   {
     "name": "Dr. Anupam Kumar Bairagi",
     "acronym": "AKB",
-    "designation": "Professor",
+    "designation": "Professor, KU",
     "department": "CSE",
     "mobile": "01304562229",
     "email": "anupam@cse.ku.ac.bd"
@@ -290,7 +378,7 @@
   {
     "name": "Dr. Kamrul Hasan Talukder",
     "acronym": "KHT",
-    "designation": "Professor",
+    "designation": "Professor, KU",
     "department": "CSE",
     "mobile": "01925687763",
     "email": "khtalukder@cse.ku.ac.bd"
@@ -298,7 +386,7 @@
   {
     "name": "Dr. Rameswar Debnath",
     "acronym": "RD",
-    "designation": "Professor",
+    "designation": "Professor, KU",
     "department": "CSE",
     "mobile": "01715182784",
     "email": "rdebnath@cseku.ac.bd"
@@ -306,7 +394,7 @@
   {
     "name": "Dr. G M Atiqur Rahaman",
     "acronym": "GMAR",
-    "designation": "Professor",
+    "designation": "Professor, KU",
     "department": "CSE",
     "mobile": "01715712877",
     "email": "gmatiq@cse.ku.ac.bd"
@@ -314,9 +402,161 @@
   {
     "name": "Dr. Syed Md. Galib",
     "acronym": "SMG",
-    "designation": "Professor",
+    "designation": "Professor, JUST",
     "department": "CSE",
     "mobile": "01781408274",
     "email": "galib.cse@just.edu.bd"
+  },
+  {
+    "name": "Dr. Md. Hasanuzzaman",
+    "acronym": "DMH",
+    "designation": "Professor, KUET",
+    "department": "MATH",
+    "mobile": "01714838750",
+    "email": "hasanuzzaman@math.kuet.ac.bd"
+  },
+  {
+    "name": "Dr. Md. Haider Ali Biswas",
+    "acronym": "HAB",
+    "designation": "Professor, KU",
+    "department": "MATH",
+    "mobile": "01711948396",
+    "email": "mhabiswas@math.ku.ac.bd"
+  },
+  {
+    "name": "Dr. Md. Azmol Huda",
+    "acronym": "AH",
+    "designation": "Professor, KU",
+    "department": "MATH",
+    "mobile": "01736658618",
+    "email": "azmol@math.ku.ac.bd"
+  },
+  {
+    "name": "Md. Maharaj Kabir",
+    "acronym": "MMK",
+    "designation": "Lecturer",
+    "department": "EEE",
+    "mobile": "01864535716",
+    "email": "maharajkabir.eee@gmail.com"
+  },
+  {
+    "name": "Md. Mahade Hasan",
+    "acronym": "MH",
+    "designation": "Lecturer",
+    "department": "EEE",
+    "mobile": "01827913696",
+    "email": "mdmahadehasan767@gmail.com"
+  },
+  {
+    "name": "Sima Roy",
+    "acronym": "SR",
+    "designation": "Lecturer",
+    "department": "ENG",
+    "mobile": "01776558188",
+    "email": "simaroy614@gmail.com"
+  },
+  {
+    "name": "Abdul Halim Golder",
+    "acronym": "AHG",
+    "designation": "Lecturer",
+    "department": "ENG",
+    "mobile": "01674600749",
+    "email": "a.halimgolder64@gmail.com"
+  },
+  {
+    "name": "Sadia Tasneem",
+    "acronym": "ST",
+    "designation": "Associate Prof. & Head (GED)",
+    "department": "GED",
+    "mobile": "01716364151",
+    "email": "sadiatasneem9@gmail.com"
+  },
+  {
+    "name": "Ferdousi Jahan Oyshi",
+    "acronym": "FJO",
+    "designation": "Senior Lecturer",
+    "department": "GED",
+    "mobile": "01911147974",
+    "email": "oyshibg@gmail.com"
+  },
+  {
+    "name": "Fatema Tuz Zohora Jui",
+    "acronym": "FZJ",
+    "designation": "Lecturer (C)",
+    "department": "GED",
+    "mobile": "01986911689",
+    "email": "fatemajuinubtkacad@gmail.com"
+  },
+  {
+    "name": "Md. Touhiduzzaman Nishat",
+    "acronym": "MTN",
+    "designation": "Lecturer (C)",
+    "department": "GED",
+    "mobile": "01975040012",
+    "email": "nishatku35@gmail.com"
+  },
+  {
+    "name": "Dr. Md. Shah Alam",
+    "acronym": "MSA",
+    "designation": "Advisor (GED)",
+    "department": "GED",
+    "mobile": "01675007858",
+    "email": "dr.shahalam2011@gmail.com"
+  },
+  {
+    "name": "Arpita Azad",
+    "acronym": "AA",
+    "designation": "Lecturer",
+    "department": "LAW",
+    "mobile": "01749834100",
+    "email": "arpitaazadboby@gmail.com"
+  },
+  {
+    "name": "Md. Ataullah",
+    "acronym": "MA",
+    "designation": "Lecturer",
+    "department": "LAW",
+    "mobile": "01729408713",
+    "email": "mdataullahsunny@gmail.com"
+  },
+  {
+    "name": "Jalal Uddin Ahmed",
+    "acronym": "JU",
+    "designation": "Professor & Dean (DBA)",
+    "department": "DBA",
+    "mobile": "01754090761",
+    "email": "jalalkhulna@gmail.com"
+  },
+  {
+    "name": "Rejuana Sultana",
+    "acronym": "RS",
+    "designation": "Senior Lecturer",
+    "department": "DBA",
+    "mobile": "01775577157",
+    "email": "rejuanasultana.jnu11@gmail.com"
+  },
+  {
+    "name": "Md. Arifuzzaman",
+    "acronym": "AZZ",
+    "designation": "Senior Lecturer",
+    "department": "DBA",
+    "mobile": "01319808076",
+    "email": "arif.bba.iu.1205018@gmail.com"
+  },
+  {
+    "name": "Md. Vaskar Islam",
+    "acronym": "VI",
+    "designation": "Lecturer",
+    "department": "DBA",
+    "mobile": "01736615377",
+    "email": "vaskarislam@gmail.com"
+  },
+  {
+    "name": "Fairuz Rahman",
+    "acronym": "FR",
+    "designation": "Lecturer",
+    "department": "DBA",
+    "mobile": "01707029896",
+    "email": "fairuzrahman567@gmail.com"
   }
 ]
