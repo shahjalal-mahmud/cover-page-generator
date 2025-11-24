@@ -1,0 +1,258 @@
+[
+  {
+    "name": "Md. Hasibul Islam",
+    "acronym": "MHI",
+    "designation": "Head",
+    "department": "CSE",
+    "mobile": "01786646636",
+    "email": "head.cse.nubtk@gmail.com"
+  },
+  {
+    "name": "Md. Tahmid Hasan",
+    "acronym": "MTH",
+    "designation": "Coordinator",
+    "department": "CSE",
+    "mobile": "01747804726",
+    "email": "mth.cse.office@gmail.com"
+  },
+  {
+    "name": "Md. Azizul Islam",
+    "acronym": "MAI",
+    "designation": "Coordinator",
+    "department": "CSE",
+    "mobile": "01851266902",
+    "email": "azizul.cse19@gmail.com"
+  },
+  {
+    "name": "Md. Rabiul Islam",
+    "acronym": "MRI",
+    "designation": "Advisory Dean",
+    "department": "CSE",
+    "mobile": "01718860019",
+    "email": "rabinub@gmail.com"
+  },
+  {
+    "name": "Ferdib-Al-Islam",
+    "acronym": "FAI",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "mobile": "01730584481",
+    "email": "ferdib.bsmrstu@gmail.com"
+  },
+  {
+    "name": "Md. Tahmid Hasan",
+    "acronym": "MTH",
+    "designation": "Senior Lecturer",
+    "department": "CSE",
+    "mobile": "01747804726",
+    "email": "mth.cse.office@gmail.com"
+  },
+  {
+    "name": "Md. Azizul Islam",
+    "acronym": "MAI",
+    "designation": "Senior Lecturer",
+    "department": "CSE",
+    "mobile": "01851266902",
+    "email": "azizul.cse19@gmail.com"
+  },
+  {
+    "name": "Arjan Ghosh",
+    "acronym": "AG",
+    "designation": "Senior Lecturer",
+    "department": "CSE",
+    "mobile": "01752914949",
+    "email": "ghosharjan@gmail.com"
+  },
+  {
+    "name": "Md. Hasibul Islam",
+    "acronym": "MHI",
+    "designation": "Senior Lecturer",
+    "department": "CSE",
+    "mobile": "01786646636",
+    "email": "hasibkucse28@gmail.com"
+  },
+  {
+    "name": "Shahadat Hoshen Moz",
+    "acronym": "SHM",
+    "designation": "Senior Lecturer",
+    "department": "CSE",
+    "mobile": "01859743490",
+    "email": "shahadat.cse.just@gmail.com"
+  },
+  {
+    "name": "Kazi Asif Ahmed",
+    "acronym": "KAA",
+    "designation": "Senior Lecturer",
+    "department": "CSE",
+    "mobile": "01712831885",
+    "email": "asif170203@gmail.com"
+  },
+  {
+    "name": "Md. Apu Hosen",
+    "acronym": "MAH",
+    "designation": "Senior Lecturer",
+    "department": "CSE",
+    "mobile": "01948085306",
+    "email": "apu.cse.just@gmail.com"
+  },
+  {
+    "name": "Md. Shamim Parvej",
+    "acronym": "MSP",
+    "designation": "Senior Lecturer",
+    "department": "CSE",
+    "mobile": "01726779787",
+    "email": "bd.shamim.cse@gmail.com"
+  },
+  {
+    "name": "Md. Abid Afsan Hamid",
+    "acronym": "MAAH",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01518642275",
+    "email": "abidafsanhamid@gmail.com"
+  },
+  {
+    "name": "Vashkar Kar",
+    "acronym": "VK",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01516784918",
+    "email": "vashkarkar@gmail.com"
+  },
+  {
+    "name": "Talha Al Junaid",
+    "acronym": "TAJ",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01984757758",
+    "email": "talha1721@cseku.ac.bd"
+  },
+  {
+    "name": "Rashik Reza Fahim",
+    "acronym": "RRF",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01768499319",
+    "email": "rashikrezafahim256@gmail.com"
+  },
+  {
+    "name": "Md. Mossadek Touhid",
+    "acronym": "MT",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01517183118",
+    "email": "touhid.cse68@gmail.com"
+  },
+  {
+    "name": "Mst. Farjana Alam",
+    "acronym": "MFA",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01768831617",
+    "email": "farjana.alam001@gmail.com"
+  },
+  {
+    "name": "Shovon Mandal",
+    "acronym": "SM",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01911549671",
+    "email": "shovon.nubtk@gmail.com"
+  },
+  {
+    "name": "Aishwarja Paul Sourav",
+    "acronym": "APS",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01718205408",
+    "email": "aishwarja.paul.sourav@gmail.com"
+  },
+  {
+    "name": "Faria Afrin Tisha",
+    "acronym": "FA",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01540001241",
+    "email": "fariatisha3929@gmail.com"
+  },
+  {
+    "name": "Susmita Sejuti Saha",
+    "acronym": "SSS",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01316484718",
+    "email": "susmitasejuti124@gmail.com"
+  },
+  {
+    "name": "Md. Zahid Hassan Rabbi",
+    "acronym": "ZHR",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01738861171",
+    "email": "jahidhassanrabbi1786@gmail.com"
+  },
+  {
+    "name": "Md. Newaj Sorif Nishad",
+    "acronym": "NSN",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01521538880",
+    "email": "newajsorif.72@gmail.com"
+  },
+  {
+    "name": "Umme Habiba",
+    "acronym": "UH",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01975371141",
+    "email": "9ummeyhabiba@gmail.com"
+  },
+  {
+    "name": "Debasish Biswas",
+    "acronym": "DB",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01742981825",
+    "email": "debasish1906@cseku.ac.bd"
+  },
+  {
+    "name": "Faisal Habib Raim",
+    "acronym": "FHR",
+    "designation": "Lecturer",
+    "department": "CSE",
+    "mobile": "01750300372",
+    "email": "fhr1309@gmail.com"
+  },
+  {
+    "name": "Md. Abdul Halim Khan",
+    "acronym": "MAHK",
+    "designation": "Lecturer (C)",
+    "department": "CSE",
+    "mobile": "01793363974",
+    "email": "mahkngn@gmail.com"
+  },
+  {
+    "name": "Saykat Mondal",
+    "acronym": "SKM",
+    "designation": "Lecturer (C)",
+    "department": "CSE",
+    "mobile": "01745272595",
+    "email": "saykat1911@cseku.ac.bd"
+  },
+  {
+    "name": "Sujan Kumar Dhali",
+    "acronym": "SKD",
+    "designation": "Lecturer (C)",
+    "department": "CSE",
+    "mobile": "01581584636",
+    "email": "sujan1913@cseku.ac.bd"
+  },
+  {
+    "name": "Mst. Dilruba Easmin",
+    "acronym": "MDE",
+    "designation": "Lecturer (C)",
+    "department": "CSE",
+    "mobile": "01794010775",
+    "email": "easmin2407556@stud.kuet.ac.bd"
+  }
+]
