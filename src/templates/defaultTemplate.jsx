@@ -13,7 +13,7 @@ const DefaultTemplate = ({ formData }) => {
             className="h-20 mx-auto mb-4"
           />
         )}
-        <h1 className="text-3xl font-bold text-blue-800 mb-2">
+        <h1 className="text-xl font-bold text-blue-800 mb-2">
           {formData.universityName || 'University Name'}
         </h1>
         <h2 className="text-xl font-semibold text-gray-700">
@@ -29,7 +29,7 @@ const DefaultTemplate = ({ formData }) => {
         <h4 className="text-lg font-semibold text-gray-600 mb-4">
           on
         </h4>
-        <h2 className="text-3xl font-bold text-blue-700">
+        <h2 className="text-xl font-bold text-blue-700">
           {formData.topic || 'Document Topic'}
         </h2>
       </div>

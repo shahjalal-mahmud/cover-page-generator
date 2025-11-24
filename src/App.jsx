@@ -7,7 +7,7 @@ import { clearForm } from './utils/formHelpers';
 function App() {
   const [formData, setFormData] = useState({
     // University Information
-    universityName: 'North South University',
+    universityName: 'Northern University of Business & Technology Khulna',
     universityLogo: '',
     departmentName: 'Computer Science & Engineering',
     
