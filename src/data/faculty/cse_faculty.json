@@ -24,12 +24,28 @@
     "email": "azizul.cse19@gmail.com"
   },
   {
+    "name": "Prof. Dr. Kutub Uddin",
+    "acronym": "KUD",
+    "designation": "Dean",
+    "department": "CSE",
+    "mobile": "01796696632",
+    "email": "kutub_bitk@yahoo.com"
+  },
+  {
     "name": "Md. Rabiul Islam",
     "acronym": "MRI",
     "designation": "Advisory Dean",
     "department": "CSE",
     "mobile": "01718860019",
     "email": "rabinub@gmail.com"
+  },
+  {
+    "name": "Md. Riaz Mahmud",
+    "acronym": "RM",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "mobile": "01925158914",
+    "email": "riazmahmudcse@gmail.com"
   },
   {
     "name": "Ferdib-Al-Islam",
@@ -254,5 +270,53 @@
     "department": "CSE",
     "mobile": "01794010775",
     "email": "easmin2407556@stud.kuet.ac.bd"
+  },
+  {
+    "name": "Dr. Anwarul Haque Joarder",
+    "acronym": "AHJ",
+    "designation": "Pro-VC",
+    "department": "CSE",
+    "mobile": "01977000805",
+    "email": "ajstat@gmail.com"
+  },
+  {
+    "name": "Dr. Anupam Kumar Bairagi",
+    "acronym": "AKB",
+    "designation": "Professor",
+    "department": "CSE",
+    "mobile": "01304562229",
+    "email": "anupam@cse.ku.ac.bd"
+  },
+  {
+    "name": "Dr. Kamrul Hasan Talukder",
+    "acronym": "KHT",
+    "designation": "Professor",
+    "department": "CSE",
+    "mobile": "01925687763",
+    "email": "khtalukder@cse.ku.ac.bd"
+  },
+  {
+    "name": "Dr. Rameswar Debnath",
+    "acronym": "RD",
+    "designation": "Professor",
+    "department": "CSE",
+    "mobile": "01715182784",
+    "email": "rdebnath@cseku.ac.bd"
+  },
+  {
+    "name": "Dr. G M Atiqur Rahaman",
+    "acronym": "GMAR",
+    "designation": "Professor",
+    "department": "CSE",
+    "mobile": "01715712877",
+    "email": "gmatiq@cse.ku.ac.bd"
+  },
+  {
+    "name": "Dr. Syed Md. Galib",
+    "acronym": "SMG",
+    "designation": "Professor",
+    "department": "CSE",
+    "mobile": "01781408274",
+    "email": "galib.cse@just.edu.bd"
   }
 ]
