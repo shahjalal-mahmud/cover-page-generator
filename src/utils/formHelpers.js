@@ -1,51 +1,43 @@
-// Utility functions for form handling
-export const validateForm = (formData) => {
-  const errors = {};
-  
-  if (!formData.universityName.trim()) {
-    errors.universityName = 'University name is required';
-  }
-  
-  if (!formData.departmentName.trim()) {
-    errors.departmentName = 'Department name is required';
-  }
-  
-  if (!formData.studentName.trim()) {
-    errors.studentName = 'Student name is required';
-  }
-  
-  if (!formData.studentId.trim()) {
-    errors.studentId = 'Student ID is required';
-  }
-  
-  if (!formData.teacherName.trim()) {
-    errors.teacherName = "Teacher's name is required";
-  }
-  
-  if (!formData.topic.trim()) {
-    errors.topic = 'Topic is required';
-  }
-  
-  return errors;
-};
-
+// utils/formHelpers.js
 export const clearForm = () => {
   return {
-    universityName: '',
+    universityName: 'North South University',
     universityLogo: '',
-    departmentName: '',
-    documentType: 'Assignment',
+    departmentName: 'Computer Science & Engineering',
+    documentType: '',
     documentNumber: '',
     topic: '',
     courseTitle: '',
     courseCode: '',
     studentName: '',
     studentId: '',
-    studentDepartment: '',
+    studentDepartment: 'Computer Science & Engineering',
     section: '',
     teacherName: '',
-    teacherPosition: 'Lecturer',
+    teacherPosition: '',
     teacherDepartment: '',
     submissionDate: new Date().toISOString().split('T')[0]
   };
+};
+
+export const validateForm = (formData) => {
+  const errors = {};
+  
+  if (!formData.studentName?.trim()) {
+    errors.studentName = 'Student name is required';
+  }
+  
+  if (!formData.studentId?.trim()) {
+    errors.studentId = 'Student ID is required';
+  }
+  
+  if (!formData.courseCode?.trim()) {
+    errors.courseCode = 'Course code is required';
+  }
+  
+  if (!formData.documentType?.trim()) {
+    errors.documentType = 'Document type is required';
+  }
+  
+  return errors;
 };

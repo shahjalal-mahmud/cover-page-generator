@@ -34,6 +34,7 @@ function App() {
   });
 
   const [currentTemplate, setCurrentTemplate] = useState('default');
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const handleFormChange = (field, value) => {
     setFormData(prev => ({
@@ -45,6 +46,21 @@ function App() {
   const handleClearForm = () => {
     setFormData(clearForm());
   };
+
+  // Global function for generating cover preview
+  if (typeof window !== 'undefined') {
+    window.generateCoverPreview = (data) => {
+      setIsGenerating(true);
+      // Simulate generation process
+      setTimeout(() => {
+        setIsGenerating(false);
+        // Scroll to preview section
+        document.getElementById('preview-section')?.scrollIntoView({ 
+          behavior: 'smooth' 
+        });
+      }, 500);
+    };
+  }
 
   return (
     <div className="min-h-screen bg-base-200">
@@ -77,11 +93,42 @@ function App() {
           </div>
 
           {/* Preview */}
-          <div>
+          <div id="preview-section">
             <CoverPagePreview 
               formData={formData} 
               template={currentTemplate}
             />
+            
+            {/* Generating Indicator */}
+            {isGenerating && (
+              <div className="card bg-base-100 shadow-xl mt-4">
+                <div className="card-body">
+                  <div className="flex items-center justify-center gap-4">
+                    <div className="loading loading-spinner loading-lg text-primary"></div>
+                    <span className="text-lg">Generating Preview...</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Quick Tips */}
+        <div className="mt-12 bg-base-100 rounded-lg p-6 shadow-md">
+          <h3 className="text-lg font-semibold mb-4">💡 Quick Tips</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div className="flex items-start gap-2">
+              <div className="badge badge-primary badge-sm mt-1">PDF</div>
+              <span>Download high-quality PDF for printing</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <div className="badge badge-secondary badge-sm mt-1">PNG</div>
+              <span>Get PNG image for digital submission</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <div className="badge badge-accent badge-sm mt-1">Share</div>
+              <span>Share directly via Email or WhatsApp</span>
+            </div>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import React from 'react';
 
 const Template1 = ({ formData }) => {
   return (
+    <div style={{ width: "100%", height: "100%" }}>
     <div className="bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-800 p-12 min-h-[297mm] w-[210mm] mx-auto shadow-2xl rounded-lg">
       {/* Header with gradient */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg text-center mb-12">
@@ -60,6 +61,7 @@ const Template1 = ({ formData }) => {
           📅 Submitted on: {new Date(formData.submissionDate).toLocaleDateString()}
         </p>
       </div>
+    </div>
     </div>
   );
 };

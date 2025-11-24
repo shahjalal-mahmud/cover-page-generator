@@ -2,7 +2,8 @@ import React from 'react';
 
 const DefaultTemplate = ({ formData }) => {
   return (
-    <div className="bg-white text-gray-800 p-8 min-h-[297mm] w-[210mm] mx-auto shadow-2xl">
+    <div style={{ width: "100%", height: "100%" }}>
+    <div className="bg-white text-gray-800 p-8 min-h-[297mm] w-[210mm] mx-auto">
       {/* University Header */}
       <div className="text-center border-b-2 border-blue-600 pb-4 mb-8">
         {formData.universityLogo && (
@@ -13,33 +14,33 @@ const DefaultTemplate = ({ formData }) => {
           />
         )}
         <h1 className="text-3xl font-bold text-blue-800 mb-2">
-          {formData.universityName}
+          {formData.universityName || 'University Name'}
         </h1>
         <h2 className="text-xl font-semibold text-gray-700">
-          {formData.departmentName}
+          {formData.departmentName || 'Department Name'}
         </h2>
       </div>
 
       {/* Document Title */}
       <div className="text-center my-12">
         <h3 className="text-2xl font-bold text-gray-800 mb-2">
-          {formData.documentType} {formData.documentNumber}
+          {formData.documentType || 'Document Type'} {formData.documentNumber || ''}
         </h3>
         <h4 className="text-lg font-semibold text-gray-600 mb-4">
           on
         </h4>
         <h2 className="text-3xl font-bold text-blue-700">
-          {formData.topic}
+          {formData.topic || 'Document Topic'}
         </h2>
       </div>
 
       {/* Course Information */}
       <div className="text-center my-12">
         <p className="text-lg text-gray-700">
-          <strong>Course Title:</strong> {formData.courseTitle}
+          <strong>Course Title:</strong> {formData.courseTitle || 'Course Title'}
         </p>
         <p className="text-lg text-gray-700">
-          <strong>Course Code:</strong> {formData.courseCode}
+          <strong>Course Code:</strong> {formData.courseCode || 'Course Code'}
         </p>
       </div>
 
@@ -51,10 +52,10 @@ const DefaultTemplate = ({ formData }) => {
             Submitted By
           </h5>
           <div className="space-y-2">
-            <p><strong>Name:</strong> {formData.studentName}</p>
-            <p><strong>ID:</strong> {formData.studentId}</p>
-            <p><strong>Department:</strong> {formData.studentDepartment}</p>
-            <p><strong>Section:</strong> {formData.section}</p>
+            <p><strong>Name:</strong> {formData.studentName || 'Student Name'}</p>
+            <p><strong>ID:</strong> {formData.studentId || 'Student ID'}</p>
+            <p><strong>Department:</strong> {formData.studentDepartment || 'Department'}</p>
+            <p><strong>Section:</strong> {formData.section || 'Section'}</p>
           </div>
         </div>
 
@@ -64,9 +65,9 @@ const DefaultTemplate = ({ formData }) => {
             Submitted To
           </h5>
           <div className="space-y-2">
-            <p><strong>Name:</strong> {formData.teacherName}</p>
-            <p><strong>Position:</strong> {formData.teacherPosition}</p>
-            <p><strong>Department:</strong> {formData.teacherDepartment}</p>
+            <p><strong>Name:</strong> {formData.teacherName || 'Teacher Name'}</p>
+            <p><strong>Position:</strong> {formData.teacherPosition || 'Position'}</p>
+            <p><strong>Department:</strong> {formData.teacherDepartment || 'Department'}</p>
           </div>
         </div>
       </div>
@@ -74,9 +75,10 @@ const DefaultTemplate = ({ formData }) => {
       {/* Submission Date */}
       <div className="text-center mt-16 pt-8 border-t-2 border-gray-300">
         <p className="text-lg font-semibold">
-          Submission Date: {new Date(formData.submissionDate).toLocaleDateString()}
+          Submission Date: {formData.submissionDate ? new Date(formData.submissionDate).toLocaleDateString() : 'Date'}
         </p>
       </div>
+    </div>
     </div>
   );
 };
