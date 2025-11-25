@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import { defaultTemplate } from '../templates/defaultTemplate.jsx';
 import { template1 } from '../templates/template1.jsx';
 import DownloadActions from './DownloadActions';
-
+import BlueWaveTemplate from '../templates/BlueWaveTemplate.jsx';
 const CoverPagePreview = ({ formData, template = 'default' }) => {
   const previewRef = useRef();
   const containerRef = useRef();
@@ -12,7 +12,7 @@ const CoverPagePreview = ({ formData, template = 'default' }) => {
   // Template mapping
   const templates = {
     default: defaultTemplate,
-    template1: template1
+    template1: BlueWaveTemplate
   };
 
   const SelectedTemplate = templates[template] || defaultTemplate;
