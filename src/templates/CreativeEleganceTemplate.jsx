@@ -9,8 +9,8 @@ const CreativeEleganceTemplate = ({ formData }) => {
         minHeight: "297mm",
         padding: "25mm 20mm",
         boxSizing: "border-box",
-        fontFamily: "'Montserrat', sans-serif",
-        lineHeight: "1.5",
+        fontFamily:  "'Times New Roman', Times, serif",
+        lineHeight: "1.6",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -18,38 +18,7 @@ const CreativeEleganceTemplate = ({ formData }) => {
         overflow: "hidden", // Ensure no overflow from decorative elements
       }}
     >
-      {/* Top Left Decorative Element */}
-      <div
-        style={{
-          position: "absolute",
-          top: "-50px",
-          left: "-50px",
-          width: "150px",
-          height: "150px",
-          backgroundColor: "#C6F6D5", // Light green
-          borderRadius: "50%",
-          opacity: 0.7,
-          filter: "blur(40px)",
-          zIndex: 0,
-        }}
-      ></div>
-
-      {/* Bottom Right Decorative Element */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "-50px",
-          right: "-70px",
-          width: "200px",
-          height: "150px",
-          backgroundColor: "#0097b2", // Light blue-green
-          borderRadius: "70%",
-          opacity: 0.6,
-          filter: "blur(50px)",
-          zIndex: 0,
-        }}
-      ></div>
-
+  
       {/* Main Content Wrapper */}
       <div style={{ position: "relative", zIndex: 1 }}>
         {/* University Header */}
@@ -138,10 +107,10 @@ const CreativeEleganceTemplate = ({ formData }) => {
           {/* Submitted By */}
           <div className="w-1/2">
             <div
-              className="border-l-4 border-blue-500 rounded-lg p-6 bg-white shadow-lg"
+              className="border-l-8 border-blue-500 rounded-xl p-6 bg-white shadow-lg"
               style={{ minHeight: "200px" }}
             >
-              <h3 className="text-lg font-bold uppercase mb-4 pb-2 border-b-2 border-gray-200 text-blue-500">
+              <h3 className="text-lg font-bold uppercase mb-4 pb-2 border-b-2 border-gray-300 text-blue-500">
                 Submitted by
               </h3>
               <div className="space-y-2 text-sm">
@@ -168,10 +137,10 @@ const CreativeEleganceTemplate = ({ formData }) => {
           {/* Submitted To */}
           <div className="w-1/2">
             <div
-              className="border-l-4 border-green-500 rounded-lg p-6 bg-white shadow-lg"
+              className="border-l-8 border-green-500 rounded-xl p-6 bg-white shadow-lg"
               style={{ minHeight: "200px" }}
             >
-              <h3 className="text-lg font-bold uppercase mb-4 pb-2 border-b-2 border-gray-200 text-green-900">
+              <h3 className="text-lg font-bold uppercase mb-4 pb-2 border-b-2 border-gray-300 text-green-600">
                 Submitted to
               </h3>
               <div className="space-y-2 text-sm">
@@ -194,7 +163,7 @@ const CreativeEleganceTemplate = ({ formData }) => {
       </div>
 
       {/* Submission Date */}
-      <div className="text-center mt-auto pt-10 border-t border-gray-200" style={{ position: "relative", zIndex: 1 }}>
+      <div className="text-center mt-auto pt-10 border-t border-gray-300" style={{ position: "relative", zIndex: 1 }}>
         <p className="text-sm font-semibold text-gray-600">
           Date of Submission:{" "}
           {formData.submissionDate
