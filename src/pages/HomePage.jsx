@@ -27,9 +27,6 @@ const HomePage = ({
             {/* Modern Theme Toggle */}
             <div className="flex items-center gap-3">
               <div className="hidden sm:flex items-center gap-2 text-sm opacity-70">
-                <span className={`transition-all duration-300 ${theme === 'light' ? 'opacity-100' : 'opacity-50'}`}>
-                  Light
-                </span>
                 <button 
                   onClick={onThemeToggle}
                   className="relative w-14 h-7 rounded-full bg-gradient-to-r from-primary to-secondary p-1 transition-all duration-500 hover:scale-105 hover:shadow-lg"
@@ -49,9 +46,6 @@ const HomePage = ({
                     </div>
                   </div>
                 </button>
-                <span className={`transition-all duration-300 ${theme === 'dark' ? 'opacity-100' : 'opacity-50'}`}>
-                  Dark
-                </span>
               </div>
               
               {/* Mobile Theme Toggle */}
@@ -92,7 +86,7 @@ const HomePage = ({
           </div>
 
           {/* Preview - After form on mobile, right side on desktop */}
-          <div id="preview-section" className="order-2 xl:order-2">
+          <div id="preview-section" className="order-2">
             <CoverPagePreview 
               formData={formData} 
               template={currentTemplate}
