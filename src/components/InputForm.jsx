@@ -27,7 +27,6 @@ const normalizeCourseCode = (code) => code.replace(/\s+/g, "").toUpperCase();
 export default function FastInputForm({ formData, onFormChange }) {
   const [idError, setIdError] = useState("");
   const [sectionInput, setSectionInput] = useState(formData.section || "");
-  const [selectedSemester, setSelectedSemester] = useState(() => semestersData.semesters?.[0]?.semester || "");
   const [availableCourses, setAvailableCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [selectedCourseCode, setSelectedCourseCode] = useState(formData.courseCode || "");
@@ -45,65 +44,20 @@ export default function FastInputForm({ formData, onFormChange }) {
     return match ? match[1] : null;
   };
 
-  // Auto-detect semester when section changes
-  useEffect(() => {
-    const sec = (sectionInput || "").trim().toUpperCase();
-    if (!sec) return;
-
-    const semesterNumber = extractSemesterFromSection(sec);
-    if (semesterNumber) {
-      const matchingSemester = semestersData.semesters.find(sem => 
-        sem.semester.includes(semesterNumber)
-      );
-      if (matchingSemester) {
-        setSelectedSemester(matchingSemester.semester);
-      }
-    }
+  // Get detected semester from section
+  const detectedSemester = useMemo(() => {
+    return extractSemesterFromSection(sectionInput);
   }, [sectionInput]);
 
-  // Student ID handling - auto-fill but allow manual editing
-  useEffect(() => {
-    const id = (formData.studentId || "").trim();
+  // Get semester data based on detected semester
+  const semesterObj = useMemo(() => {
+    if (!detectedSemester) return semestersData.semesters?.[0] || null;
     
-    if (!id) {
-      setIdError(prev => prev !== "" ? "" : prev);
-      setIsIdValidated(prev => prev !== false ? false : prev);
-      return;
-    }
-
-    if (!/^\d{0,11}$/.test(id)) {
-      setIdError("Only digits allowed (max 11).");
-      setIsIdValidated(false);
-      return;
-    }
-
-    if (id.length < 11) {
-      setIdError("Student ID must be 11 digits.");
-      setIsIdValidated(false);
-      return;
-    }
-
-    if (id.length === 11) {
-      const found = studentsData.students.find((s) => s.studentId === id);
-      if (found) {
-        setField("studentName", found.name);
-        if (studentsData.department) setField("studentDepartment", studentsData.department);
-        setIdError("");
-        setIsIdValidated(true);
-      } else {
-        setField("studentName", "");
-        setField("studentDepartment", studentsData.department || "");
-        setIdError("ID not found - please enter name and department manually.");
-        setIsIdValidated(true);
-      }
-    }
-  }, [formData.studentId, setField]);
-
-  // Get semester data
-  const semesterObj = useMemo(
-    () => semestersData.semesters.find((s) => s.semester === selectedSemester) || semestersData.semesters[0],
-    [selectedSemester]
-  );
+    const matchingSemester = semestersData.semesters.find(sem => 
+      sem.semester.includes(detectedSemester)
+    );
+    return matchingSemester || semestersData.semesters?.[0] || null;
+  }, [detectedSemester]);
 
   // Build available courses
   useEffect(() => {
@@ -248,7 +202,6 @@ export default function FastInputForm({ formData, onFormChange }) {
     setCustomDocType("");
     setIdError("");
     setIsIdValidated(false);
-    setSelectedSemester(semestersData.semesters?.[0]?.semester || "");
   };
 
   const validateAndGenerate = () => {
@@ -294,12 +247,10 @@ export default function FastInputForm({ formData, onFormChange }) {
           formData={formData}
           setField={setField}
           sectionInput={sectionInput}
-          selectedSemester={selectedSemester}
           filteredCourses={filteredCourses}
           selectedCourseCode={selectedCourseCode}
           onSectionChange={onSectionChange}
           onCourseSelect={onCourseSelect}
-          setSelectedSemester={setSelectedSemester}
           extractSemesterFromSection={extractSemesterFromSection}
           semestersData={semestersData}
         />

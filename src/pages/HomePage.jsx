@@ -23,44 +23,40 @@ const HomePage = ({
                 Cover Page Generator
               </h1>
             </div>
-            
-            {/* Modern Theme Toggle */}
+
+            {/* Modern, Cute, Fully Responsive Theme Toggle */}
             <div className="flex items-center gap-3">
-              <div className="hidden sm:flex items-center gap-2 text-sm opacity-70">
-                <button 
+              {/* Desktop / Tablet */}
+              <div className="hidden sm:flex items-center gap-2 text-sm opacity-80">
+                <button
                   onClick={onThemeToggle}
-                  className="relative w-14 h-7 rounded-full bg-gradient-to-r from-primary to-secondary p-1 transition-all duration-500 hover:scale-105 hover:shadow-lg"
+                  className="relative w-16 h-8 rounded-full bg-gradient-to-r from-yellow-300 via-orange-300 to-pink-400 p-1 transition-all duration-500 hover:scale-105 hover:shadow-xl"
                   aria-label="Toggle theme"
                 >
-                  <div 
-                    className={`absolute top-1 w-5 h-5 bg-base-100 rounded-full shadow-lg transform transition-all duration-500 ${
-                      theme === 'dark' ? 'translate-x-7' : 'translate-x-0'
-                    }`}
+                  {/* Toggle Circle */}
+                  <div
+                    className={`absolute top-1 w-6 h-6 bg-base-100 rounded-full shadow-md flex items-center justify-center transform transition-all duration-500 ${theme === "dark" ? "translate-x-8" : "translate-x-0"
+                      }`}
                   >
-                    <div className="flex items-center justify-center h-full">
-                      {theme === 'dark' ? (
-                        <span className="text-xs">🌙</span>
-                      ) : (
-                        <span className="text-xs">☀️</span>
-                      )}
-                    </div>
+                    <span className="text-sm animate-bounce">
+                      {theme === "dark" ? "🌙" : "☀️"}
+                    </span>
                   </div>
                 </button>
               </div>
-              
-              {/* Mobile Theme Toggle */}
-              <button 
+
+              {/* Mobile */}
+              <button
                 onClick={onThemeToggle}
-                className="sm:hidden btn btn-circle btn-ghost btn-sm border border-base-300"
+                className="sm:hidden w-10 h-10 rounded-full bg-gradient-to-r from-yellow-200 via-orange-200 to-pink-300 flex items-center justify-center shadow-md hover:scale-110 transition-all duration-300"
                 aria-label="Toggle theme"
               >
-                {theme === 'dark' ? (
-                  <span className="text-lg">🌙</span>
-                ) : (
-                  <span className="text-lg">☀️</span>
-                )}
+                <span className="text-lg animate-pulse">
+                  {theme === "dark" ? "🌙" : "☀️"}
+                </span>
               </button>
             </div>
+
           </div>
         </div>
       </div>
@@ -68,7 +64,7 @@ const HomePage = ({
       <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
         {/* Template Selector */}
         <div className="mb-6 sm:mb-8">
-          <TemplateSelector 
+          <TemplateSelector
             currentTemplate={currentTemplate}
             onTemplateChange={onTemplateChange}
           />
@@ -78,8 +74,8 @@ const HomePage = ({
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 sm:gap-8">
           {/* Input Form - Always first on mobile */}
           <div className="order-1">
-            <InputForm 
-              formData={formData} 
+            <InputForm
+              formData={formData}
               onFormChange={onFormChange}
               onClearForm={onClearForm}
             />
@@ -87,11 +83,11 @@ const HomePage = ({
 
           {/* Preview - After form on mobile, right side on desktop */}
           <div id="preview-section" className="order-2">
-            <CoverPagePreview 
-              formData={formData} 
+            <CoverPagePreview
+              formData={formData}
               template={currentTemplate}
             />
-            
+
             {/* Enhanced Generating Indicator */}
             {isGenerating && (
               <div className="card bg-base-100/80 backdrop-blur-md border border-primary/20 shadow-xl mt-6">
@@ -122,7 +118,7 @@ const HomePage = ({
             </h3>
             <p className="opacity-70 mt-2">Make the most out of your cover page creation</p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {/* Tip 1 */}
             <div className="card bg-base-100/80 backdrop-blur-md border border-primary/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
