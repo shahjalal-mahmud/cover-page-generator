@@ -11,7 +11,7 @@ import CourseInfoSection from "../sections/CourseInfoSection";
 import TeacherInfoSection from "../sections/TeacherInfoSection";
 import DocumentDetailsSection from "../sections/DocumentDetailsSection";
 import ActionButtons from "../sections/ActionButtons";
-import { FiBookOpen } from "react-icons/fi";
+import { FiBookOpen, FiZap, FiLayout } from "react-icons/fi";
 
 const docTypes = [
   "Assignment",
@@ -24,6 +24,41 @@ const docTypes = [
 
 const normalizeCourseCode = (code) => code.replace(/\s+/g, "").toUpperCase();
 
+// Load saved student data from localStorage
+const loadSavedStudentData = () => {
+  try {
+    const saved = localStorage.getItem('studentFormData');
+    return saved ? JSON.parse(saved) : null;
+  } catch (error) {
+    console.error('Error loading saved student data:', error);
+    return null;
+  }
+};
+
+// Save student data to localStorage
+const saveStudentData = (data) => {
+  try {
+    const studentData = {
+      studentId: data.studentId,
+      studentName: data.studentName,
+      studentDepartment: data.studentDepartment,
+      section: data.section
+    };
+    localStorage.setItem('studentFormData', JSON.stringify(studentData));
+  } catch (error) {
+    console.error('Error saving student data:', error);
+  }
+};
+
+// Clear saved student data
+const clearSavedStudentData = () => {
+  try {
+    localStorage.removeItem('studentFormData');
+  } catch (error) {
+    console.error('Error clearing saved student data:', error);
+  }
+};
+
 export default function FastInputForm({ formData, onFormChange }) {
   const [idError, setIdError] = useState("");
   const [sectionInput, setSectionInput] = useState(formData.section || "");
@@ -32,11 +67,26 @@ export default function FastInputForm({ formData, onFormChange }) {
   const [selectedCourseCode, setSelectedCourseCode] = useState(formData.courseCode || "");
   const [isIdValidated, setIsIdValidated] = useState(false);
   const [customDocType, setCustomDocType] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasLoadedSavedData, setHasLoadedSavedData] = useState(false);
 
   // Wrap setField in useCallback to avoid dependency issues
   const setField = useCallback((field, value) => {
     onFormChange(field, value);
   }, [onFormChange]);
+
+  // Load saved student data on component mount
+  useEffect(() => {
+    const savedData = loadSavedStudentData();
+    if (savedData && !hasLoadedSavedData) {
+      setField("studentId", savedData.studentId || "");
+      setField("studentName", savedData.studentName || "");
+      setField("studentDepartment", savedData.studentDepartment || studentsData.department || "");
+      setField("section", savedData.section || "");
+      setSectionInput(savedData.section || "");
+      setHasLoadedSavedData(true);
+    }
+  }, [setField, hasLoadedSavedData]);
 
   // Extract semester number from section (e.g., "5C" -> "5")
   const extractSemesterFromSection = (section) => {
@@ -104,6 +154,57 @@ export default function FastInputForm({ formData, onFormChange }) {
     });
   }, [sectionInput, availableCourses]);
 
+  // Student ID handling - auto-fill from JSON data
+  useEffect(() => {
+    const id = (formData.studentId || "").trim();
+    
+    if (!id) {
+      setIdError(prev => prev !== "" ? "" : prev);
+      setIsIdValidated(prev => prev !== false ? false : prev);
+      return;
+    }
+
+    if (!/^\d{0,11}$/.test(id)) {
+      setIdError("Only digits allowed (max 11).");
+      setIsIdValidated(false);
+      return;
+    }
+
+    if (id.length < 11) {
+      setIdError("Student ID must be 11 digits.");
+      setIsIdValidated(false);
+      return;
+    }
+
+    if (id.length === 11) {
+      // Find student in JSON data
+      const foundStudent = studentsData.students.find((student) => student.studentId === id);
+      
+      if (foundStudent) {
+        // Auto-fill name and department
+        setField("studentName", foundStudent.name);
+        setField("studentDepartment", studentsData.department || "");
+        setIdError("");
+        setIsIdValidated(true);
+        
+        // Save to localStorage when we have complete student data
+        if (formData.section && formData.studentName && formData.studentDepartment) {
+          saveStudentData({
+            studentId: id,
+            studentName: foundStudent.name,
+            studentDepartment: studentsData.department || "",
+            section: formData.section
+          });
+        }
+      } else {
+        setField("studentName", "");
+        setField("studentDepartment", studentsData.department || "");
+        setIdError("ID not found in database - please enter name manually.");
+        setIsIdValidated(true);
+      }
+    }
+  }, [formData.studentId, formData.section, formData.studentName, formData.studentDepartment, setField]);
+
   // Auto-fill teacher info when course is selected
   useEffect(() => {
     const code = (selectedCourseCode || "").trim();
@@ -161,6 +262,14 @@ export default function FastInputForm({ formData, onFormChange }) {
     }
   }, [selectedCourseCode, availableCourses, sectionInput, setField]);
 
+  // Save student data when section changes (if we have complete info)
+  useEffect(() => {
+    if (formData.studentId && formData.studentId.length === 11 && 
+        formData.studentName && formData.studentDepartment && formData.section) {
+      saveStudentData(formData);
+    }
+  }, [formData.studentId, formData.studentName, formData.studentDepartment, formData.section]);
+
   // Event handlers
   const onIdChange = (raw) => {
     const v = raw.replace(/\D/g, "");
@@ -184,27 +293,35 @@ export default function FastInputForm({ formData, onFormChange }) {
   };
 
   const clearForm = () => {
-    setField("studentId", "");
-    setField("studentName", "");
-    setField("studentDepartment", studentsData.department || "");
-    setField("section", "");
-    setSectionInput("");
-    setSelectedCourseCode("");
-    setField("courseTitle", "");
-    setField("courseCode", "");
-    setField("teacherName", "");
-    setField("teacherPosition", "");
-    setField("teacherEmail", "");
-    setField("teacherMobile", "");
-    setField("documentType", "");
-    setField("topic", "");
-    setField("submissionDate", new Date().toISOString().split("T")[0]);
-    setCustomDocType("");
-    setIdError("");
-    setIsIdValidated(false);
+    setIsLoading(true);
+    setTimeout(() => {
+      setField("studentId", "");
+      setField("studentName", "");
+      setField("studentDepartment", studentsData.department || "");
+      setField("section", "");
+      setSectionInput("");
+      setSelectedCourseCode("");
+      setField("courseTitle", "");
+      setField("courseCode", "");
+      setField("teacherName", "");
+      setField("teacherPosition", "");
+      setField("teacherEmail", "");
+      setField("teacherMobile", "");
+      setField("documentType", "");
+      setField("topic", "");
+      setField("submissionDate", new Date().toISOString().split("T")[0]);
+      setCustomDocType("");
+      setIdError("");
+      setIsIdValidated(false);
+      clearSavedStudentData();
+      setHasLoadedSavedData(false);
+      setIsLoading(false);
+    }, 300);
   };
 
-  const validateAndGenerate = () => {
+  const validateAndGenerate = async () => {
+    setIsLoading(true);
+    
     const errors = [];
     if (!formData.studentId || formData.studentId.length !== 11) errors.push("Valid Student ID required (11 digits).");
     if (!formData.studentName || !formData.studentName.trim()) errors.push("Student name required.");
@@ -212,69 +329,118 @@ export default function FastInputForm({ formData, onFormChange }) {
     if (!formData.documentType) errors.push("Select document type.");
 
     if (errors.length) {
+      setIsLoading(false);
       alert("Please fix the following:\n" + errors.join("\n"));
       return;
     }
+
+    // Save final data before generation
+    if (formData.studentId && formData.studentName && formData.studentDepartment && formData.section) {
+      saveStudentData(formData);
+    }
+
+    // Simulate processing time
+    await new Promise(resolve => setTimeout(resolve, 800));
 
     if (typeof window?.generateCoverPreview === "function") {
       window.generateCoverPreview(formData);
     } else {
       alert("Form validated successfully - ready for cover generation!");
     }
+    
+    setIsLoading(false);
   };
 
   return (
-    <div className="card bg-base-100 shadow-xl w-full">
-      <div className="card-body">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="card-title text-2xl font-semibold flex items-center gap-2">
-            <FiBookOpen className="text-primary" /> Cover Page Generator
-          </h2>
-          <div className="badge badge-primary badge-lg">Fast & Easy</div>
+    <div className="card bg-base-100 shadow-2xl w-full border border-base-300">
+      <div className="card-body p-6 md:p-8">
+        {/* Header Section */}
+        <div className="text-center mb-8">
+          <div className="flex flex-col items-center justify-center gap-4 mb-4">
+            <div className="relative">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center shadow-lg">
+                <FiBookOpen className="text-2xl text-white" />
+              </div>
+              <div className="absolute -top-2 -right-2">
+                <div className="bg-accent text-accent-content text-xs font-bold px-2 py-1 rounded-full shadow-sm">
+                  NEW
+                </div>
+              </div>
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Cover Page Generator
+              </h1>
+              <p className="text-base-content/70 mt-2">Create professional cover pages in seconds</p>
+            </div>
+          </div>
+          
+          <div className="flex flex-wrap justify-center gap-3 mt-4">
+            <div className="badge badge-primary badge-lg gap-1">
+              <FiZap className="text-sm" />
+              Fast & Easy
+            </div>
+            <div className="badge badge-secondary badge-lg gap-1">
+              <FiLayout className="text-sm" />
+              Responsive
+            </div>
+            <div className="badge badge-accent badge-lg">
+              Auto-fill
+            </div>
+          </div>
         </div>
 
-        {/* Student Information Section */}
-        <StudentInfoSection
-          formData={formData}
-          setField={setField}
-          idError={idError}
-          isIdValidated={isIdValidated}
-          onIdChange={onIdChange}
-        />
+        {/* Progress Steps */}
+        <div className="steps steps-horizontal w-full mb-8">
+          <div className="step step-primary">Student</div>
+          <div className="step step-primary">Course</div>
+          <div className="step">Teacher</div>
+          <div className="step">Document</div>
+          <div className="step">Generate</div>
+        </div>
 
-        {/* Course Information Section */}
-        <CourseInfoSection
-          formData={formData}
-          setField={setField}
-          sectionInput={sectionInput}
-          filteredCourses={filteredCourses}
-          selectedCourseCode={selectedCourseCode}
-          onSectionChange={onSectionChange}
-          onCourseSelect={onCourseSelect}
-          extractSemesterFromSection={extractSemesterFromSection}
-          semestersData={semestersData}
-        />
+        {/* Form Sections */}
+        <div className="space-y-6">
+          <StudentInfoSection
+            formData={formData}
+            setField={setField}
+            idError={idError}
+            isIdValidated={isIdValidated}
+            onIdChange={onIdChange}
+            onSectionChange={onSectionChange}
+          />
 
-        {/* Teacher Information Section */}
-        <TeacherInfoSection
-          formData={formData}
-          setField={setField}
-        />
+          <CourseInfoSection
+            formData={formData}
+            setField={setField}
+            sectionInput={sectionInput}
+            filteredCourses={filteredCourses}
+            selectedCourseCode={selectedCourseCode}
+            onSectionChange={onSectionChange}
+            onCourseSelect={onCourseSelect}
+            extractSemesterFromSection={extractSemesterFromSection}
+            semestersData={semestersData}
+          />
 
-        {/* Document Details Section */}
-        <DocumentDetailsSection
-          formData={formData}
-          setField={setField}
-          customDocType={customDocType}
-          onDocTypeChange={onDocTypeChange}
-          docTypes={docTypes}
-        />
+          <TeacherInfoSection
+            formData={formData}
+            setField={setField}
+          />
 
-        {/* Action Buttons */}
-        <ActionButtons
-          clearForm={clearForm}
-          validateAndGenerate={validateAndGenerate}
-        />
+          <DocumentDetailsSection
+            formData={formData}
+            setField={setField}
+            customDocType={customDocType}
+            onDocTypeChange={onDocTypeChange}
+            docTypes={docTypes}
+          />
+
+          <ActionButtons
+            clearForm={clearForm}
+            validateAndGenerate={validateAndGenerate}
+            isLoading={isLoading}
+          />
+        </div>
       </div>
     </div>
   );
