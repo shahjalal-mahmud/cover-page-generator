@@ -6,7 +6,7 @@ function App() {
   const [formData, setFormData] = useState({
     // University Information
     universityName: 'Northern University of Business & Technology Khulna',
-    universityLogo: 'https://i.ibb.co.com/9k8CXmWP/nubtk-logo.jpg',
+    universityLogo: '/logo/nubtk-logo.jpeg',
     departmentName: 'Computer Science & Engineering',
     
     // Assignment Information

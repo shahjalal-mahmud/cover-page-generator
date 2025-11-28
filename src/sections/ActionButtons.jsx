@@ -9,13 +9,6 @@ const ActionButtons = ({ clearForm, validateAndGenerate }) => {
       >
         Clear Form
       </button>
-      
-      <button
-        className="btn btn-primary btn-wide"
-        onClick={validateAndGenerate}
-      >
-        Generate Cover Page
-      </button>
     </div>
   );
 };
