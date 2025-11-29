@@ -351,8 +351,7 @@ export default function FastInputForm({ formData, onFormChange }) {
   };
 
   return (
-    <div className="card bg-gradient-to-br from-purple-50 to-pink-50 shadow-2xl w-full border border-purple-200 rounded-3xl overflow-hidden">
-
+    <div className="card bg-base-100 shadow-2xl w-full border border-base-300 rounded-3xl overflow-hidden">
       {/* Form Sections */}
       <div className="space-y-6">
         <StudentInfoSection

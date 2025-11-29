@@ -1,7 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import { FiBookOpen, FiInfo, FiCalendar, FiChevronDown } from "react-icons/fi";
 
-const CourseInfoSection = ({
+const CourseInfoSection = memo(({
   formData,
   setField,
   sectionInput,
@@ -14,14 +14,14 @@ const CourseInfoSection = ({
   const detectedSemester = extractSemesterFromSection(sectionInput);
 
   return (
-    <div className="bg-white p-6 rounded-2xl border border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+    <div className="bg-base-100 p-6 rounded-2xl border border-base-300 shadow-lg transition-all duration-200">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-xl flex items-center justify-center shadow-md">
-          <FiBookOpen className="text-white text-xl" />
+        <div className="w-12 h-12 bg-gradient-to-r from-accent to-info rounded-xl flex items-center justify-center shadow-md">
+          <FiBookOpen className="text-base-100 text-xl" />
         </div>
         <div>
-          <h3 className="text-xl font-bold text-gray-800">Course Information 📖</h3>
-          <p className="text-sm text-gray-600">Enter your course details</p>
+          <h3 className="text-xl font-bold text-base-content">Course Information 📖</h3>
+          <p className="text-sm text-base-content opacity-70">Enter your course details</p>
         </div>
       </div>
 
@@ -29,12 +29,12 @@ const CourseInfoSection = ({
         {/* Section Input */}
         <div className="form-control relative">
           <label className="label flex justify-between items-center">
-            <span className="label-text font-semibold text-gray-700 flex items-center gap-2">
-              <FiCalendar className="text-blue-500" />
+            <span className="label-text font-semibold text-base-content flex items-center gap-2">
+              <FiCalendar className="text-info" />
               Section
             </span>
             {sectionInput && detectedSemester && (
-              <span className="label-text-alt text-green-500 text-sm font-medium flex items-center gap-1">
+              <span className="label-text-alt text-success text-sm font-medium flex items-center gap-1">
                 ✅ Semester {detectedSemester} detected
               </span>
             )}
@@ -42,15 +42,15 @@ const CourseInfoSection = ({
           <input
             type="text"
             placeholder="e.g. 5C, 1A"
-            className="input input-bordered w-full border-2 border-blue-200 bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-200 rounded-xl transition-all duration-200"
+            className="input input-bordered w-full px-4"
             value={sectionInput}
             onChange={(e) => onSectionChange(e.target.value)}
           />
-          <span className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+          <span className="text-xs text-base-content opacity-60 mt-2 flex items-center gap-1">
             🎯 Batch + Section (auto-detects semester)
           </span>
           {sectionInput && !detectedSemester && (
-            <span className="text-orange-500 text-xs mt-1 flex items-center gap-1">
+            <span className="text-warning text-xs mt-1 flex items-center gap-1">
               ⚠️ Could not detect semester
             </span>
           )}
@@ -58,39 +58,39 @@ const CourseInfoSection = ({
 
         {/* Semester Display */}
         <div className="form-control">
-          <label className="label font-semibold text-gray-700 flex items-center gap-2">
-            <FiInfo className="text-purple-500" />
+          <label className="label font-semibold text-base-content flex items-center gap-2">
+            <FiInfo className="text-primary" />
             Semester
           </label>
-          <div className={`input w-full flex items-center justify-between rounded-xl px-4 py-3 border-2 transition-all duration-200 ${
+          <div className={`input w-full flex items-center justify-between px-4 py-3 ${
             detectedSemester 
-              ? "border-green-400 bg-green-50 text-green-700" 
-              : "border-gray-200 bg-gray-50 text-gray-400"
+              ? "input-success" 
+              : "bg-base-200 text-base-content opacity-60"
           }`}>
             {detectedSemester ? (
               <span className="font-bold">Semester {detectedSemester}</span>
             ) : (
               <span>Enter section to detect</span>
             )}
-            <FiInfo className="text-current" title="Automatically detected from section" />
+            <FiInfo className="text-current opacity-60" title="Automatically detected from section" />
           </div>
         </div>
 
         {/* Course Selector */}
         <div className="form-control relative">
           <label className="label flex justify-between items-center">
-            <span className="label-text font-semibold text-gray-700 flex items-center gap-2">
+            <span className="label-text font-semibold text-base-content flex items-center gap-2">
               📚 Course
             </span>
             {sectionInput && (
-              <span className="label-text-alt text-blue-500 text-sm font-medium">
+              <span className="label-text-alt text-info text-sm font-medium">
                 Showing for {sectionInput}
               </span>
             )}
           </label>
           <div className="relative">
             <select
-              className="select w-full border-2 border-purple-200 bg-white focus:border-purple-400 focus:ring-2 focus:ring-purple-200 rounded-xl appearance-none transition-all duration-200 pr-10"
+              className="select select-bordered w-full px-4 pr-10 appearance-none"
               value={selectedCourseCode || ""}
               onChange={(e) => onCourseSelect(e.target.value)}
             >
@@ -109,7 +109,7 @@ const CourseInfoSection = ({
                 </option>
               )}
             </select>
-            <FiChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+            <FiChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-base-content opacity-40 pointer-events-none" />
           </div>
         </div>
       </div>
@@ -117,20 +117,20 @@ const CourseInfoSection = ({
       {/* Course Details */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
         <div className="form-control">
-          <label className="label font-semibold text-gray-700">Course Title</label>
+          <label className="label font-semibold text-base-content">Course Title</label>
           <input
             type="text"
-            className="input input-bordered w-full border-2 border-blue-200 bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-200 rounded-xl transition-all duration-200"
+            className="input input-bordered w-full px-4"
             placeholder="Course Title (auto-filled)"
             value={formData.courseTitle || ""}
             onChange={(e) => setField("courseTitle", e.target.value)}
           />
         </div>
         <div className="form-control">
-          <label className="label font-semibold text-gray-700">Course Code</label>
+          <label className="label font-semibold text-base-content">Course Code</label>
           <input
             type="text"
-            className="input input-bordered w-full border-2 border-blue-200 bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-200 rounded-xl transition-all duration-200"
+            className="input input-bordered w-full px-4"
             placeholder="Course Code (auto-filled)"
             value={formData.courseCode || ""}
             onChange={(e) => setField("courseCode", e.target.value)}
@@ -139,6 +139,6 @@ const CourseInfoSection = ({
       </div>
     </div>
   );
-};
+});
 
 export default CourseInfoSection;
