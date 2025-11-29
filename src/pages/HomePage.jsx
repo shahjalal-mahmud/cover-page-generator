@@ -1,16 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import InputForm from '../components/InputForm';
 import CoverPagePreview from '../components/CoverPagePreview';
 import TemplateSelector from '../components/TemplateSelector';
+import DownloadActions from '../components/DownloadActions';
 
-/**
- * Custom modern icon component for the quick tips section.
- * Using inline SVG for full self-containment and styling flexibility.
- * @param {object} props - Icon component props.
- * @param {string} props.icon - The SVG path data.
- * @param {string} props.color - Tailwind color class for the background/icon.
- * @param {string} props.children - Cute emoji/text for the center.
- */
 const CuteIcon = ({ icon, color, children }) => (
   <div className={`p-4 rounded-3xl ${color} shadow-lg transition-transform duration-300 group-hover:scale-105`}>
     <div className="relative w-8 h-8 flex items-center justify-center">
@@ -85,9 +78,10 @@ const HomePage = ({
   onClearForm
 }) => {
   const [activeTab, setActiveTab] = useState('input'); // 'input' or 'preview'
+  const previewRef = useRef(); // Add this ref for DownloadActions
 
   // Use data-theme attribute on the root div for DaisyUI theme support
-  return (
+return (
     <div
       data-theme={theme === 'dark' ? 'dark' : 'light'}
       className="min-h-screen relative overflow-hidden transition-all duration-700 font-sans"
@@ -261,6 +255,7 @@ const HomePage = ({
                 <CoverPagePreview
                   formData={formData}
                   template={currentTemplate}
+                  previewRef={previewRef} // Pass the ref to CoverPagePreview
                 />
 
                 {/* Enhanced Generating Indicator with Soft Glow Animation (Glassmorphism) */}
@@ -297,6 +292,31 @@ const HomePage = ({
             Switch between tabs to {activeTab === 'input' ? 'see your preview' : 'edit your information'}
           </p>
         </div>
+
+        {/* --- */}
+
+        {/* 📥 Download & Share Section - Added before Quick Tips */}
+        <section className="mt-16 sm:mt-20">
+          <div className="text-center mb-8">
+            <h3 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2">
+              <span className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">
+                Download & Share 🚀
+              </span>
+            </h3>
+            <p className="text-lg text-base-content/70">Get your cover page in multiple formats and share it easily!</p>
+          </div>
+
+          <div className="max-w-6xl mx-auto">
+            <div className="card bg-gradient-to-br from-green-50 to-blue-50 shadow-2xl w-full border border-green-200 rounded-3xl overflow-hidden">
+              <div className="card-body p-6 md:p-8">
+                <DownloadActions 
+                  previewRef={previewRef} 
+                  formData={formData}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* --- */}
 

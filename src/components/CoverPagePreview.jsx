@@ -2,10 +2,8 @@ import { useRef, useEffect, useState } from 'react';
 import { defaultTemplate } from '../templates/defaultTemplate.jsx';
 import { template1 as CreativeEleganceTemplate } from '../templates/CreativeEleganceTemplate.jsx';
 import { template3 as AquaWaveTemplate } from '../templates/AquaWaveTemplate.jsx';
-import DownloadActions from './DownloadActions';
 
-const CoverPagePreview = ({ formData, template = 'default' }) => {
-  const previewRef = useRef();
+const CoverPagePreview = ({ formData, template = 'default', previewRef }) => { // Add previewRef prop
   const containerRef = useRef();
 
   // State for scaling and fit mode
@@ -264,7 +262,7 @@ const CoverPagePreview = ({ formData, template = 'default' }) => {
           >
             {/* A4 CANVAS */}
             <div
-              ref={previewRef}
+              ref={previewRef} // Use the passed previewRef
               style={{
                 width: `${a4Width}px`,
                 height: `${a4Height}px`,
@@ -281,15 +279,7 @@ const CoverPagePreview = ({ formData, template = 'default' }) => {
             </div>
           </div>
 
-          {/* COMPACT FOOTER / ACTIONS */}
-          <div className="flex-shrink-0 px-3 py-2 sm:px-4 sm:py-3 border-t border-base-300 bg-base-100">
-            <DownloadActions 
-              previewRef={previewRef} 
-              formData={formData} 
-              resetPreview={resetPreview}
-              isResetting={isResetting}
-            />
-          </div>
+          {/* REMOVED DownloadActions from here */}
         </>
       )}
     </div>
