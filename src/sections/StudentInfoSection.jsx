@@ -1,60 +1,67 @@
 import React from "react";
-import { FiUser, FiSearch, FiCheck, FiAlertCircle } from "react-icons/fi";
+import { FiUser, FiSearch, FiCheck, FiAlertCircle, FiBook, FiAward } from "react-icons/fi";
 
 const StudentInfoSection = ({ formData, setField, idError, isIdValidated, onIdChange }) => {
   return (
-    <div className="bg-gradient-to-br from-base-200 to-base-300 p-6 rounded-2xl border border-base-300 shadow-sm hover:shadow-md transition-all duration-300">
+    <div className="bg-white p-6 rounded-2xl border border-purple-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-          <FiUser className="text-primary text-lg" />
+        <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-400 rounded-xl flex items-center justify-center shadow-md">
+          <FiUser className="text-white text-xl" />
         </div>
         <div>
-          <h3 className="text-xl font-bold text-base-content">Student Information</h3>
-          <p className="text-sm text-base-content/60">Enter your student details</p>
+          <h3 className="text-xl font-bold text-gray-800">Student Information 🎓</h3>
+          <p className="text-sm text-gray-600">Enter your student details</p>
         </div>
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Student ID */}
         <div className="form-control">
           <label className="label">
-            <span className="label-text font-semibold text-base-content/80">Student ID</span>
+            <span className="label-text font-semibold text-gray-700 flex items-center gap-2">
+              <FiAward className="text-purple-500" />
+              Student ID
+            </span>
           </label>
           <div className="relative group">
             <input
               type="text"
               inputMode="numeric"
               placeholder="Enter 11-digit ID"
-              className={`input input-lg input-bordered w-full pl-12 transition-all duration-200 group-hover:border-primary/50 ${
-                idError ? "input-error border-2" : isIdValidated ? "input-success border-2" : ""
-              }`}
+              className={`input input-lg w-full pl-12 transition-all duration-200 border-2 ${
+                idError 
+                  ? "border-red-400 bg-red-50 focus:border-red-500" 
+                  : isIdValidated 
+                  ? "border-green-400 bg-green-50 focus:border-green-500"
+                  : "border-purple-200 focus:border-purple-400 bg-white"
+              } rounded-xl focus:ring-2 focus:ring-purple-200`}
               value={formData.studentId || ""}
               onChange={(e) => onIdChange(e.target.value)}
             />
             <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
               {isIdValidated ? (
-                <FiCheck className="text-success text-lg" />
+                <FiCheck className="text-green-500 text-xl" />
               ) : idError ? (
-                <FiAlertCircle className="text-error text-lg" />
+                <FiAlertCircle className="text-red-500 text-xl" />
               ) : (
-                <FiSearch className="text-base-content/40 text-lg group-hover:text-primary transition-colors" />
+                <FiSearch className="text-gray-400 text-xl group-hover:text-purple-500 transition-colors" />
               )}
             </div>
           </div>
           <div className="label">
             {idError ? (
-              <span className="label-text-alt text-error font-medium flex items-center gap-1">
+              <span className="label-text-alt text-red-500 font-medium flex items-center gap-2 animate-pulse">
                 <FiAlertCircle className="text-sm" />
                 {idError}
               </span>
             ) : formData.studentId ? (
-              <span className="label-text-alt text-success font-medium flex items-center gap-1">
+              <span className="label-text-alt text-green-500 font-medium flex items-center gap-2">
                 <FiCheck className="text-sm" />
-                {isIdValidated ? "ID validated successfully!" : "Type complete"}
+                {isIdValidated ? "ID validated successfully! 🎉" : "Type complete"}
               </span>
             ) : (
-              <span className="label-text-alt text-base-content/50">
-                11-digit student ID required
+              <span className="label-text-alt text-gray-500">
+                📝 11-digit student ID required
               </span>
             )}
           </div>
@@ -63,18 +70,21 @@ const StudentInfoSection = ({ formData, setField, idError, isIdValidated, onIdCh
         {/* Student Name */}
         <div className="form-control">
           <label className="label">
-            <span className="label-text font-semibold text-base-content/80">Student Name</span>
+            <span className="label-text font-semibold text-gray-700 flex items-center gap-2">
+              <FiUser className="text-pink-500" />
+              Student Name
+            </span>
           </label>
           <input
             type="text"
             placeholder="Full name (auto-filled or manual)"
-            className="input input-lg input-bordered w-full transition-all duration-200 hover:border-primary/50 focus:border-primary"
+            className="input input-lg w-full border-2 border-purple-200 bg-white focus:border-purple-400 focus:ring-2 focus:ring-purple-200 rounded-xl transition-all duration-200"
             value={formData.studentName || ""}
             onChange={(e) => setField("studentName", e.target.value)}
           />
           <label className="label">
-            <span className="label-text-alt text-base-content/50">
-              {formData.studentName ? "✓ Name entered" : "Enter your full name"}
+            <span className="label-text-alt text-gray-500 flex items-center gap-1">
+              {formData.studentName ? "✅ Name entered" : "👤 Enter your full name"}
             </span>
           </label>
         </div>
@@ -82,18 +92,21 @@ const StudentInfoSection = ({ formData, setField, idError, isIdValidated, onIdCh
         {/* Department */}
         <div className="form-control">
           <label className="label">
-            <span className="label-text font-semibold text-base-content/80">Department</span>
+            <span className="label-text font-semibold text-gray-700 flex items-center gap-2">
+              <FiBook className="text-blue-500" />
+              Department
+            </span>
           </label>
           <input
             type="text"
             placeholder="Department"
-            className="input input-lg input-bordered w-full transition-all duration-200 hover:border-primary/50 focus:border-primary"
+            className="input input-lg w-full border-2 border-purple-200 bg-white focus:border-purple-400 focus:ring-2 focus:ring-purple-200 rounded-xl transition-all duration-200"
             value={formData.studentDepartment || ""}
             onChange={(e) => setField("studentDepartment", e.target.value)}
           />
           <label className="label">
-            <span className="label-text-alt text-base-content/50">
-              Your department
+            <span className="label-text-alt text-gray-500">
+              🏛️ Your department
             </span>
           </label>
         </div>

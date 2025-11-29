@@ -13,6 +13,7 @@ const CoverPagePreview = ({ formData, template = 'default' }) => {
   const [fitMode, setFitMode] = useState('fill'); // 'fit', 'fill', 'custom'
   const [manualScale, setManualScale] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
 
   // Template mapping
   const templates = {
@@ -30,6 +31,25 @@ const CoverPagePreview = ({ formData, template = 'default' }) => {
   // A4 Dimensions (96 DPI)
   const a4Width = 794;
   const a4Height = 1123;
+
+  // Reset preview to default state
+  const resetPreview = async () => {
+    setIsResetting(true);
+    
+    // Reset to default fill mode and scale
+    setFitMode('fill');
+    setManualScale(1);
+    
+    // Wait for the reset to take effect
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    // Force a re-render and wait for layout to stabilize
+    await new Promise(resolve => requestAnimationFrame(resolve));
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    setIsResetting(false);
+    return true;
+  };
 
   // Calculate scale based on fit mode
   useEffect(() => {
@@ -126,14 +146,8 @@ const CoverPagePreview = ({ formData, template = 'default' }) => {
       <div className="flex-shrink-0 flex flex-col xs:flex-row justify-between items-start xs:items-center gap-2 px-3 py-2 sm:px-4 sm:py-3 border-b border-base-300 bg-base-100">
         <div className="min-w-0">
           <h2 className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent truncate">
-            📄 Live Preview
-          </h2>
-          <p className="text-xs opacity-70 mt-0.5 hidden sm:block">
             {template.replace("template", "Template ")}
-          </p>
-        </div>
-        <div className="badge badge-primary badge-sm sm:badge-md badge-outline whitespace-nowrap">
-          A4 ({a4Width}x{a4Height}px)
+          </h2>
         </div>
       </div>
       
@@ -182,7 +196,7 @@ const CoverPagePreview = ({ formData, template = 'default' }) => {
               <button 
                 onClick={resetZoom} 
                 className="join-item btn btn-xs sm:btn-sm btn-ghost hover:bg-base-300" 
-                disabled={fitMode === 'fit' && manualScale === 1}
+                disabled={fitMode === 'fill' && manualScale === 1}
                 aria-label="Reset Zoom"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -232,6 +246,14 @@ const CoverPagePreview = ({ formData, template = 'default' }) => {
                 </li>
               </ul>
             </div>
+
+            {/* Reset Indicator */}
+            {isResetting && (
+              <div className="flex items-center gap-2 text-info text-xs">
+                <div className="loading loading-spinner loading-xs"></div>
+                Resetting...
+              </div>
+            )}
           </div>
 
           {/* PREVIEW CONTAINER - NO SCROLLING */}
@@ -261,7 +283,12 @@ const CoverPagePreview = ({ formData, template = 'default' }) => {
 
           {/* COMPACT FOOTER / ACTIONS */}
           <div className="flex-shrink-0 px-3 py-2 sm:px-4 sm:py-3 border-t border-base-300 bg-base-100">
-            <DownloadActions previewRef={previewRef} formData={formData} />
+            <DownloadActions 
+              previewRef={previewRef} 
+              formData={formData} 
+              resetPreview={resetPreview}
+              isResetting={isResetting}
+            />
           </div>
         </>
       )}

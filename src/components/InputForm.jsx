@@ -11,7 +11,6 @@ import CourseInfoSection from "../sections/CourseInfoSection";
 import TeacherInfoSection from "../sections/TeacherInfoSection";
 import DocumentDetailsSection from "../sections/DocumentDetailsSection";
 import ActionButtons from "../sections/ActionButtons";
-import { FiBookOpen, FiZap, FiLayout } from "react-icons/fi";
 
 const docTypes = [
   "Assignment",
@@ -102,8 +101,8 @@ export default function FastInputForm({ formData, onFormChange }) {
   // Get semester data based on detected semester
   const semesterObj = useMemo(() => {
     if (!detectedSemester) return semestersData.semesters?.[0] || null;
-    
-    const matchingSemester = semestersData.semesters.find(sem => 
+
+    const matchingSemester = semestersData.semesters.find(sem =>
       sem.semester.includes(detectedSemester)
     );
     return matchingSemester || semestersData.semesters?.[0] || null;
@@ -129,7 +128,7 @@ export default function FastInputForm({ formData, onFormChange }) {
   // Filter courses by section
   useEffect(() => {
     const sec = (sectionInput || "").trim().toUpperCase();
-    
+
     if (!sec) {
       setFilteredCourses(prev => {
         const newCourses = JSON.stringify(availableCourses);
@@ -140,8 +139,8 @@ export default function FastInputForm({ formData, onFormChange }) {
     }
 
     const sectionCourses = availableCourses.filter(course => {
-      const courseAssignment = assignmentsData.find(assignment => 
-        assignment.section === sec && 
+      const courseAssignment = assignmentsData.find(assignment =>
+        assignment.section === sec &&
         normalizeCourseCode(assignment.courseCode) === course.codeNormalized
       );
       return courseAssignment !== undefined;
@@ -157,7 +156,7 @@ export default function FastInputForm({ formData, onFormChange }) {
   // Student ID handling - auto-fill from JSON data
   useEffect(() => {
     const id = (formData.studentId || "").trim();
-    
+
     if (!id) {
       setIdError(prev => prev !== "" ? "" : prev);
       setIsIdValidated(prev => prev !== false ? false : prev);
@@ -179,14 +178,14 @@ export default function FastInputForm({ formData, onFormChange }) {
     if (id.length === 11) {
       // Find student in JSON data
       const foundStudent = studentsData.students.find((student) => student.studentId === id);
-      
+
       if (foundStudent) {
         // Auto-fill name and department
         setField("studentName", foundStudent.name);
         setField("studentDepartment", studentsData.department || "");
         setIdError("");
         setIsIdValidated(true);
-        
+
         // Save to localStorage when we have complete student data
         if (formData.section && formData.studentName && formData.studentDepartment) {
           saveStudentData({
@@ -213,7 +212,7 @@ export default function FastInputForm({ formData, onFormChange }) {
     const course = availableCourses.find(
       (it) => normalizeCourseCode(it.code) === normalizeCourseCode(code) || it.code === code
     );
-    
+
     if (course) {
       setField("courseCode", course.code);
       setField("courseTitle", course.title);
@@ -221,25 +220,25 @@ export default function FastInputForm({ formData, onFormChange }) {
 
     const codeNorm = normalizeCourseCode(course?.code || code);
     const sec = (sectionInput || "").trim().toUpperCase();
-    
+
     let teacherAcronym = null;
 
     if (Array.isArray(assignmentsData)) {
-      const assignment = assignmentsData.find(assign => 
-        assign.section === sec && 
+      const assignment = assignmentsData.find(assign =>
+        assign.section === sec &&
         normalizeCourseCode(assign.courseCode) === codeNorm
       );
-      
+
       if (assignment) {
         teacherAcronym = assignment.teacherAcronym;
       }
     }
 
     if (teacherAcronym) {
-      const teacher = teachersList.find((t) => 
+      const teacher = teachersList.find((t) =>
         (t.acronym || "").toUpperCase() === teacherAcronym.toUpperCase()
       );
-      
+
       if (teacher) {
         setField("teacherName", teacher.name || teacherAcronym);
         setField("teacherDepartment", teacher.department || "");
@@ -264,8 +263,8 @@ export default function FastInputForm({ formData, onFormChange }) {
 
   // Save student data when section changes (if we have complete info)
   useEffect(() => {
-    if (formData.studentId && formData.studentId.length === 11 && 
-        formData.studentName && formData.studentDepartment && formData.section) {
+    if (formData.studentId && formData.studentId.length === 11 &&
+      formData.studentName && formData.studentDepartment && formData.section) {
       saveStudentData(formData);
     }
   }, [formData.studentId, formData.studentName, formData.studentDepartment, formData.section]);
@@ -321,7 +320,7 @@ export default function FastInputForm({ formData, onFormChange }) {
 
   const validateAndGenerate = async () => {
     setIsLoading(true);
-    
+
     const errors = [];
     if (!formData.studentId || formData.studentId.length !== 11) errors.push("Valid Student ID required (11 digits).");
     if (!formData.studentName || !formData.studentName.trim()) errors.push("Student name required.");
@@ -347,100 +346,54 @@ export default function FastInputForm({ formData, onFormChange }) {
     } else {
       alert("Form validated successfully - ready for cover generation!");
     }
-    
+
     setIsLoading(false);
   };
 
   return (
-    <div className="card bg-base-100 shadow-2xl w-full border border-base-300">
-      <div className="card-body p-6 md:p-8">
-        {/* Header Section */}
-        <div className="text-center mb-8">
-          <div className="flex flex-col items-center justify-center gap-4 mb-4">
-            <div className="relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center shadow-lg">
-                <FiBookOpen className="text-2xl text-white" />
-              </div>
-              <div className="absolute -top-2 -right-2">
-                <div className="bg-accent text-accent-content text-xs font-bold px-2 py-1 rounded-full shadow-sm">
-                  NEW
-                </div>
-              </div>
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Cover Page Generator
-              </h1>
-              <p className="text-base-content/70 mt-2">Create professional cover pages in seconds</p>
-            </div>
-          </div>
-          
-          <div className="flex flex-wrap justify-center gap-3 mt-4">
-            <div className="badge badge-primary badge-lg gap-1">
-              <FiZap className="text-sm" />
-              Fast & Easy
-            </div>
-            <div className="badge badge-secondary badge-lg gap-1">
-              <FiLayout className="text-sm" />
-              Responsive
-            </div>
-            <div className="badge badge-accent badge-lg">
-              Auto-fill
-            </div>
-          </div>
-        </div>
+    <div className="card bg-gradient-to-br from-purple-50 to-pink-50 shadow-2xl w-full border border-purple-200 rounded-3xl overflow-hidden">
 
-        {/* Progress Steps */}
-        <div className="steps steps-horizontal w-full mb-8">
-          <div className="step step-primary">Student</div>
-          <div className="step step-primary">Course</div>
-          <div className="step">Teacher</div>
-          <div className="step">Document</div>
-          <div className="step">Generate</div>
-        </div>
+      {/* Form Sections */}
+      <div className="space-y-6">
+        <StudentInfoSection
+          formData={formData}
+          setField={setField}
+          idError={idError}
+          isIdValidated={isIdValidated}
+          onIdChange={onIdChange}
+          onSectionChange={onSectionChange}
+        />
 
-        {/* Form Sections */}
-        <div className="space-y-6">
-          <StudentInfoSection
-            formData={formData}
-            setField={setField}
-            idError={idError}
-            isIdValidated={isIdValidated}
-            onIdChange={onIdChange}
-            onSectionChange={onSectionChange}
-          />
+        <CourseInfoSection
+          formData={formData}
+          setField={setField}
+          sectionInput={sectionInput}
+          filteredCourses={filteredCourses}
+          selectedCourseCode={selectedCourseCode}
+          onSectionChange={onSectionChange}
+          onCourseSelect={onCourseSelect}
+          extractSemesterFromSection={extractSemesterFromSection}
+          semestersData={semestersData}
+        />
 
-          <CourseInfoSection
-            formData={formData}
-            setField={setField}
-            sectionInput={sectionInput}
-            filteredCourses={filteredCourses}
-            selectedCourseCode={selectedCourseCode}
-            onSectionChange={onSectionChange}
-            onCourseSelect={onCourseSelect}
-            extractSemesterFromSection={extractSemesterFromSection}
-            semestersData={semestersData}
-          />
+        <TeacherInfoSection
+          formData={formData}
+          setField={setField}
+        />
 
-          <TeacherInfoSection
-            formData={formData}
-            setField={setField}
-          />
+        <DocumentDetailsSection
+          formData={formData}
+          setField={setField}
+          customDocType={customDocType}
+          onDocTypeChange={onDocTypeChange}
+          docTypes={docTypes}
+        />
 
-          <DocumentDetailsSection
-            formData={formData}
-            setField={setField}
-            customDocType={customDocType}
-            onDocTypeChange={onDocTypeChange}
-            docTypes={docTypes}
-          />
-
-          <ActionButtons
-            clearForm={clearForm}
-            validateAndGenerate={validateAndGenerate}
-            isLoading={isLoading}
-          />
-        </div>
+        <ActionButtons
+          clearForm={clearForm}
+          validateAndGenerate={validateAndGenerate}
+          isLoading={isLoading}
+        />
       </div>
     </div>
   );

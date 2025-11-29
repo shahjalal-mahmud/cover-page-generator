@@ -11,8 +11,8 @@ function App() {
     
     // Assignment Information
     documentType: 'Assignment',
-    documentNumber: '01',
-    topic: 'Analysis of Data Structures and Algorithms',
+    documentNumber: '',
+    topic: '',
     courseTitle: 'Data Structures',
     courseCode: 'CSE 2201',
     
