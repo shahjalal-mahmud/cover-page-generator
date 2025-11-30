@@ -6,6 +6,7 @@ import DownloadActions from '../components/DownloadActions';
 import Navbar from '../components/Navbar';
 import QuickTips from '../components/QuickTips';
 import Footer from '../components/Footer';
+import FeedbackForm from '../components/FeedbackForm';
 
 const HomePage = ({
   formData,
@@ -230,6 +231,7 @@ const HomePage = ({
         {/* 🎀 Enhanced Footer: With Prominent Company Branding */}
         <Footer />
       </main>
+      <FeedbackForm />
     </div>
   );
 };
