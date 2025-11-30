@@ -4,15 +4,18 @@ import html2canvas from 'html2canvas';
 export const generatePDF = async (element, fileName = 'cover_page') => {
   try {
     // Store original styles
-    const originalTransform = element.style.transform;
-    const originalTransformOrigin = element.style.transformOrigin;
-    const originalWidth = element.style.width;
-    const originalHeight = element.style.height;
-    const originalPosition = element.style.position;
-    const originalTop = element.style.top;
-    const originalLeft = element.style.left;
+    const originalStyles = {
+      transform: element.style.transform,
+      transformOrigin: element.style.transformOrigin,
+      width: element.style.width,
+      height: element.style.height,
+      position: element.style.position,
+      top: element.style.top,
+      left: element.style.left,
+      zIndex: element.style.zIndex
+    };
 
-    // Reset styles for capture
+    // Optimized styles for capture
     element.style.transform = 'scale(1)';
     element.style.transformOrigin = 'top left';
     element.style.width = '210mm';
@@ -23,10 +26,10 @@ export const generatePDF = async (element, fileName = 'cover_page') => {
     element.style.zIndex = '9999';
 
     // Force reflow
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 50));
 
     const canvas = await html2canvas(element, {
-      scale: 2,
+      scale: 1.5, // Reduced from 2 to 1.5
       useCORS: true,
       allowTaint: false,
       backgroundColor: '#ffffff',
@@ -37,34 +40,37 @@ export const generatePDF = async (element, fileName = 'cover_page') => {
       scrollY: 0,
       windowWidth: element.scrollWidth,
       windowHeight: element.scrollHeight,
+      // Add quality optimization
+      onclone: (clonedDoc) => {
+        // Optimize images in the cloned document
+        const images = clonedDoc.querySelectorAll('img');
+        images.forEach(img => {
+          img.loading = 'eager';
+        });
+      }
     });
 
     // Restore original styles
-    element.style.transform = originalTransform;
-    element.style.transformOrigin = originalTransformOrigin;
-    element.style.width = originalWidth;
-    element.style.height = originalHeight;
-    element.style.position = originalPosition;
-    element.style.top = originalTop;
-    element.style.left = originalLeft;
-    element.style.zIndex = '';
+    Object.assign(element.style, originalStyles);
 
-    const imgData = canvas.toDataURL('image/png', 1.0);
+    // Convert to JPEG with lower quality for smaller file size
+    const imgData = canvas.toDataURL('image/jpeg', 0.85); // Using JPEG instead of PNG
     
     // Create PDF
     const pdf = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
-      format: 'a4'
+      format: 'a4',
+      compress: true // Enable PDF compression
     });
 
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
 
     // Add image to PDF
-    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
     
-    // Save PDF
+    // Save PDF with compression
     pdf.save(`${fileName}_${Date.now()}.pdf`);
 
     return true;
@@ -85,10 +91,10 @@ export const generatePNG = async (element, fileName = 'cover_page') => {
     element.style.transformOrigin = 'top left';
 
     // Force reflow
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 50));
 
     const canvas = await html2canvas(element, {
-      scale: 3, // Higher scale for better PNG quality
+      scale: 2, // Reduced from 3 to 2
       useCORS: true,
       allowTaint: false,
       backgroundColor: '#ffffff',
@@ -101,10 +107,10 @@ export const generatePNG = async (element, fileName = 'cover_page') => {
     element.style.transform = originalTransform;
     element.style.transformOrigin = originalTransformOrigin;
 
-    // Create download link
+    // Use lower quality for PNG
     const link = document.createElement('a');
     link.download = `${fileName}_${Date.now()}.png`;
-    link.href = canvas.toDataURL('image/png', 1.0);
+    link.href = canvas.toDataURL('image/png', 0.9); // Reduced quality
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
