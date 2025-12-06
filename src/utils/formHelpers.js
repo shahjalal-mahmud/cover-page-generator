@@ -1,9 +1,9 @@
 // utils/formHelpers.js
 export const clearForm = () => {
   return {
-    universityName: 'North South University',
+    universityName: '',
     universityLogo: '',
-    departmentName: 'Computer Science & Engineering',
+    departmentName: '',
     documentType: '',
     documentNumber: '',
     topic: '',
@@ -11,7 +11,7 @@ export const clearForm = () => {
     courseCode: '',
     studentName: '',
     studentId: '',
-    studentDepartment: 'Computer Science & Engineering',
+    studentDepartment: '',
     section: '',
     teacherName: '',
     teacherPosition: '',
