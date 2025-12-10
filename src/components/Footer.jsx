@@ -8,7 +8,7 @@ const Footer = () => {
           Made with <span className="text-red-500 animate-ping-slow">❤️</span> for Students Worldwide
         </p>
 
-        {/* Prominent Company Card */}
+        {/* Prominent Company Card
         <a
           href="http://appriyo.com/"
           target="_blank"
@@ -31,7 +31,7 @@ const Footer = () => {
               Innovative IT Solutions & Digital Transformation
             </p>
           </div>
-        </a>
+        </a> */}
         <p className="text-sm opacity-60 text-base-content/80 mb-4">
           © {new Date().getFullYear()} Pookie Cover Pages • A Fun Academic Tool
         </p>
