@@ -12,7 +12,7 @@ const TemplateSelector = ({ currentTemplate, onTemplateChange }) => {
         icon: "🏛️",
         gradient: "from-blue-500 to-purple-500",
         badge: "Most Popular",
-        designer: { name: "Prova", url: "https://www.facebook.com/share/1CsKEJLW7U/" },
+        designer: { name: "Md Shahajalal Mahmud", url: "https://shahajalalmahmud.netlify.app/" },
         locked: false,
       },
       {
@@ -22,7 +22,7 @@ const TemplateSelector = ({ currentTemplate, onTemplateChange }) => {
         icon: "✨",
         gradient: "from-emerald-500 to-cyan-500",
         badge: "Trending",
-        designer: { name: "Rifat Ara", url: "https://www.facebook.com/share/16pXC58h2V/" },
+        designer: { name: "Preota Saha", url: "" },
         locked: false,
       },
       {
