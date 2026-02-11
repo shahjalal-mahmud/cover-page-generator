@@ -4,3 +4,10 @@
 
 /* OPTIONAL DaisyUI config */
 @plugin "daisyui";
+
+
+input,
+select,
+textarea {
+  color: black !important;
+}
