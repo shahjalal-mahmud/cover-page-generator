@@ -5,7 +5,7 @@ import semestersData from "../data/courses/cse_courses.json";
 import assignmentsData from "../data/assign/cse_course_assign.json";
 import teachersList from "../data/faculty/cse_faculty.json";
 
-// Import components
+// Import redesigned components
 import StudentInfoSection from "../sections/StudentInfoSection";
 import CourseInfoSection from "../sections/CourseInfoSection";
 import TeacherInfoSection from "../sections/TeacherInfoSection";
@@ -23,7 +23,6 @@ const docTypes = [
 
 const normalizeCourseCode = (code) => code.replace(/\s+/g, "").toUpperCase();
 
-// Load saved student data from localStorage
 const loadSavedStudentData = () => {
   try {
     const saved = localStorage.getItem('studentFormData');
@@ -34,7 +33,6 @@ const loadSavedStudentData = () => {
   }
 };
 
-// Save student data to localStorage
 const saveStudentData = (data) => {
   try {
     const studentData = {
@@ -49,7 +47,6 @@ const saveStudentData = (data) => {
   }
 };
 
-// Clear saved student data
 const clearSavedStudentData = () => {
   try {
     localStorage.removeItem('studentFormData');
@@ -69,12 +66,10 @@ export default function FastInputForm({ formData, onFormChange }) {
   const [isLoading, setIsLoading] = useState(false);
   const [hasLoadedSavedData, setHasLoadedSavedData] = useState(false);
 
-  // Wrap setField in useCallback to avoid dependency issues
   const setField = useCallback((field, value) => {
     onFormChange(field, value);
   }, [onFormChange]);
 
-  // Load saved student data on component mount
   useEffect(() => {
     const savedData = loadSavedStudentData();
     if (savedData && !hasLoadedSavedData) {
@@ -87,18 +82,15 @@ export default function FastInputForm({ formData, onFormChange }) {
     }
   }, [setField, hasLoadedSavedData]);
 
-  // Extract semester number from section (e.g., "5C" -> "5")
   const extractSemesterFromSection = (section) => {
     const match = section.match(/^(\d+)/);
     return match ? match[1] : null;
   };
 
-  // Get detected semester from section
   const detectedSemester = useMemo(() => {
     return extractSemesterFromSection(sectionInput);
   }, [sectionInput]);
 
-  // Get semester data based on detected semester
   const semesterObj = useMemo(() => {
     if (!detectedSemester) return semestersData.semesters?.[0] || null;
 
@@ -108,7 +100,6 @@ export default function FastInputForm({ formData, onFormChange }) {
     return matchingSemester || semestersData.semesters?.[0] || null;
   }, [detectedSemester]);
 
-  // Build available courses
   useEffect(() => {
     if (!semesterObj) return;
     const courses = (semesterObj.courses || []).map((c) => ({
@@ -125,7 +116,6 @@ export default function FastInputForm({ formData, onFormChange }) {
     });
   }, [semesterObj]);
 
-  // Filter courses by section
   useEffect(() => {
     const sec = (sectionInput || "").trim().toUpperCase();
 
@@ -153,7 +143,6 @@ export default function FastInputForm({ formData, onFormChange }) {
     });
   }, [sectionInput, availableCourses]);
 
-  // Student ID handling - auto-fill from JSON data
   useEffect(() => {
     const id = (formData.studentId || "").trim();
 
@@ -176,17 +165,14 @@ export default function FastInputForm({ formData, onFormChange }) {
     }
 
     if (id.length === 11) {
-      // Find student in JSON data
       const foundStudent = studentsData.students.find((student) => student.studentId === id);
 
       if (foundStudent) {
-        // Auto-fill name and department
         setField("studentName", foundStudent.name);
         setField("studentDepartment", studentsData.department || "");
         setIdError("");
         setIsIdValidated(true);
 
-        // Save to localStorage when we have complete student data
         if (formData.section && formData.studentName && formData.studentDepartment) {
           saveStudentData({
             studentId: id,
@@ -204,7 +190,6 @@ export default function FastInputForm({ formData, onFormChange }) {
     }
   }, [formData.studentId, formData.section, formData.studentName, formData.studentDepartment, setField]);
 
-  // Auto-fill teacher info when course is selected
   useEffect(() => {
     const code = (selectedCourseCode || "").trim();
     if (!code) return;
@@ -261,15 +246,13 @@ export default function FastInputForm({ formData, onFormChange }) {
     }
   }, [selectedCourseCode, availableCourses, sectionInput, setField]);
 
-  // Save student data when section changes (if we have complete info)
   useEffect(() => {
     if (formData.studentId && formData.studentId.length === 11 &&
       formData.studentName && formData.studentDepartment && formData.section) {
       saveStudentData(formData);
     }
-  }, [formData.studentId, formData.studentName, formData.studentDepartment, formData.section]);
+  }, [formData]);
 
-  // Event handlers
   const onIdChange = (raw) => {
     const v = raw.replace(/\D/g, "");
     if (v.length > 11) return;
@@ -333,12 +316,10 @@ export default function FastInputForm({ formData, onFormChange }) {
       return;
     }
 
-    // Save final data before generation
     if (formData.studentId && formData.studentName && formData.studentDepartment && formData.section) {
       saveStudentData(formData);
     }
 
-    // Simulate processing time
     await new Promise(resolve => setTimeout(resolve, 800));
 
     if (typeof window?.generateCoverPreview === "function") {
@@ -351,49 +332,46 @@ export default function FastInputForm({ formData, onFormChange }) {
   };
 
   return (
-    <div className="card bg-base-100 shadow-2xl w-full border border-base-300 rounded-3xl overflow-hidden">
-      {/* Form Sections */}
-      <div className="space-y-6">
-        <StudentInfoSection
-          formData={formData}
-          setField={setField}
-          idError={idError}
-          isIdValidated={isIdValidated}
-          onIdChange={onIdChange}
-          onSectionChange={onSectionChange}
-        />
+    <div className="space-y-6">
+      <StudentInfoSection
+        formData={formData}
+        setField={setField}
+        idError={idError}
+        isIdValidated={isIdValidated}
+        onIdChange={onIdChange}
+        onSectionChange={onSectionChange}
+      />
 
-        <CourseInfoSection
-          formData={formData}
-          setField={setField}
-          sectionInput={sectionInput}
-          filteredCourses={filteredCourses}
-          selectedCourseCode={selectedCourseCode}
-          onSectionChange={onSectionChange}
-          onCourseSelect={onCourseSelect}
-          extractSemesterFromSection={extractSemesterFromSection}
-          semestersData={semestersData}
-        />
+      <CourseInfoSection
+        formData={formData}
+        setField={setField}
+        sectionInput={sectionInput}
+        filteredCourses={filteredCourses}
+        selectedCourseCode={selectedCourseCode}
+        onSectionChange={onSectionChange}
+        onCourseSelect={onCourseSelect}
+        extractSemesterFromSection={extractSemesterFromSection}
+        semestersData={semestersData}
+      />
 
-        <TeacherInfoSection
-          formData={formData}
-          setField={setField}
-        />
+      <TeacherInfoSection
+        formData={formData}
+        setField={setField}
+      />
 
-        <DocumentDetailsSection
-          formData={formData}
-          setField={setField}
-          customDocType={customDocType}
-          onDocTypeChange={onDocTypeChange}
-          docTypes={docTypes}
-        />
+      <DocumentDetailsSection
+        formData={formData}
+        setField={setField}
+        customDocType={customDocType}
+        onDocTypeChange={onDocTypeChange}
+        docTypes={docTypes}
+      />
 
-        <ActionButtons
-          clearForm={clearForm}
-          validateAndGenerate={validateAndGenerate}
-          isLoading={isLoading}
-        />
-      </div>
+      <ActionButtons
+        clearForm={clearForm}
+        validateAndGenerate={validateAndGenerate}
+        isLoading={isLoading}
+      />
     </div>
   );
 }

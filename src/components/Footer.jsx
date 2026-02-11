@@ -2,57 +2,68 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="mt-24 border-t border-base-300/30 bg-base-100/60 backdrop-blur">
-      <div className="container mx-auto px-4 py-14 text-center space-y-10">
-
-        {/* Product Identity */}
-        <div className="space-y-2">
-          <h2 className="text-xl font-bold tracking-wide">
-            <span className="text-primary">Pookie</span> Cover Pages
-          </h2>
-          <p className="text-sm opacity-60 max-w-md mx-auto">
-            A smart academic cover page generator built to reduce repetitive work
-            and improve student experience.
-          </p>
-        </div>
-
-        {/* Developer Credit Card */}
-        <a
-          href="https://appriyo.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group inline-block"
-        >
-          <div className="flex items-center gap-4 px-6 py-4 rounded-2xl border border-base-300/40 bg-base-200/40 hover:bg-base-200/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5">
-
-            {/* Logo */}
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-md">
-              <span className="text-primary-content font-black text-lg">A</span>
+    <footer className="mt-24 relative">
+      {/* Decorative top border */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent" />
+      
+      <div className="bg-white/5 backdrop-blur-xl border-t border-white/10">
+        <div className="container mx-auto px-4 py-12">
+          <div className="text-center space-y-8">
+            {/* Brand Section */}
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 via-pink-400 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
+                  <span className="text-2xl">📄</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-black text-white">
+                  Cover<span className="text-yellow-300">Magic</span>
+                </h2>
+              </div>
+              <p className="text-white/70 max-w-md mx-auto text-sm sm:text-base">
+                The smartest way to create academic cover pages. Built by students, for students. 🎓
+              </p>
             </div>
 
-            {/* Text */}
-            <div className="text-left leading-tight">
-              <p className="text-xs uppercase tracking-widest opacity-50 font-semibold">
-                Developed by
+            {/* Developer Credit */}
+            <div className="pt-6 border-t border-white/10">
+              <a
+                href="https://appriyo.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block group"
+              >
+                <div className="flex items-center gap-4 px-6 py-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                  {/* Logo */}
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
+                    <span className="text-white font-black text-lg">A</span>
+                  </div>
+
+                  {/* Text */}
+                  <div className="text-left">
+                    <p className="text-xs text-white/50 font-semibold uppercase tracking-wider mb-0.5">
+                      Crafted with ❤️ by
+                    </p>
+                    <p className="text-lg font-black text-white">
+                      Appriyo
+                    </p>
+                    <p className="text-xs text-white/60">
+                      IT Solutions & Digital Innovation
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            {/* Copyright */}
+            <div className="text-white/50 text-xs sm:text-sm space-y-1">
+              <p className="font-semibold">
+                © {new Date().getFullYear()} CoverMagic • All rights reserved
               </p>
-              <p className="text-base font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Appriyo
-              </p>
-              <p className="text-[11px] opacity-60">
-                IT Solutions & Digital Products
+              <p className="text-white/30 uppercase tracking-widest text-[10px]">
+                Free Academic Tool • Version 2.0
               </p>
             </div>
           </div>
-        </a>
-
-        {/* Footer Meta */}
-        <div className="space-y-1">
-          <p className="text-sm opacity-70 font-medium">
-            © {new Date().getFullYear()} Pookie Cover Pages
-          </p>
-          <p className="text-[11px] uppercase tracking-[0.25em] opacity-40">
-            Academic Utility Tool • v2.0
-          </p>
         </div>
       </div>
     </footer>

@@ -10,7 +10,7 @@ const TemplateSelector = ({ currentTemplate, onTemplateChange }) => {
         name: "Classic",
         desc: "Simple university layout",
         icon: "🏛️",
-        gradient: "from-blue-500 to-purple-500",
+        gradient: "from-blue-500 via-indigo-500 to-purple-500",
         badge: "Most Popular",
         designer: { name: "Md Shahajalal Mahmud", url: "https://shahajalalmahmud.netlify.app/" },
         locked: false,
@@ -20,7 +20,7 @@ const TemplateSelector = ({ currentTemplate, onTemplateChange }) => {
         name: "Modern",
         desc: "Clean and stylish",
         icon: "✨",
-        gradient: "from-emerald-500 to-cyan-500",
+        gradient: "from-emerald-500 via-teal-500 to-cyan-500",
         badge: "Trending",
         designer: { name: "Preota Saha", url: "" },
         locked: false,
@@ -30,8 +30,8 @@ const TemplateSelector = ({ currentTemplate, onTemplateChange }) => {
         name: "Minimal",
         desc: "Light & minimal UI",
         icon: "⚪",
-        gradient: "from-gray-400 to-slate-500",
-        badge: "Upcoming",
+        gradient: "from-gray-400 via-slate-500 to-zinc-500",
+        badge: "Coming Soon",
         designer: null,
         locked: true,
       },
@@ -40,8 +40,8 @@ const TemplateSelector = ({ currentTemplate, onTemplateChange }) => {
         name: "Colorful",
         desc: "Vibrant design",
         icon: "🌈",
-        gradient: "from-orange-400 to-pink-500",
-        badge: "Upcoming",
+        gradient: "from-orange-400 via-pink-500 to-rose-500",
+        badge: "Coming Soon",
         designer: null,
         locked: true,
       },
@@ -49,14 +49,10 @@ const TemplateSelector = ({ currentTemplate, onTemplateChange }) => {
     []
   );
 
-  // Expanded for desktop · collapsible for mobile
   const [expanded, setExpanded] = useState(true);
-
-  // Modal State
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState({ title: "", body: "" });
 
-  // Auto-restore previously selected template
   useEffect(() => {
     const saved = localStorage.getItem(SELECTED_KEY);
 
@@ -74,8 +70,8 @@ const TemplateSelector = ({ currentTemplate, onTemplateChange }) => {
   const handleSelect = (t) => {
     if (t.locked) {
       setModalContent({
-        title: `${t.name} — Coming Soon`,
-        body: "New templates arriving soon. Stay tuned!",
+        title: `${t.name} Template`,
+        body: "This template is coming soon! Stay tuned for updates. 🚀",
       });
       setModalOpen(true);
       return;
@@ -88,24 +84,26 @@ const TemplateSelector = ({ currentTemplate, onTemplateChange }) => {
   const closeModal = () => setModalOpen(false);
 
   return (
-    <div className="mb-6 select-none">
+    <div className="mb-8 select-none">
       {/* Header */}
-      <div className="flex items-center justify-between px-3 sm:px-4 py-3">
-        <div>
-          <h3 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            🎨 Choose Your Style
-          </h3>
-          <p className="text-xs sm:text-sm opacity-70 mt-1">
-            Select a template that matches your project
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex-1">
+          <span className="inline-block px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-white text-xs font-bold mb-2 border border-white/20">
+            ✨ Templates
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-black text-white drop-shadow-lg">
+            Choose Your Style
+          </h2>
+          <p className="text-white/80 mt-1 text-sm sm:text-base">
+            Pick the perfect template for your cover page
           </p>
         </div>
 
-        {/* Expand/Collapse Button with Chevron Icon */}
         <button
           onClick={() => setExpanded((s) => !s)}
-          className="flex items-center gap-2 px-3 py-1 rounded-full border border-base-200 bg-base-100 hover:shadow transition text-xs"
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all duration-300 text-sm font-bold"
         >
-          <span>{expanded ? "Collapse" : "Expand"}</span>
+          <span>{expanded ? "Hide" : "Show"}</span>
           <svg
             className={`w-4 h-4 transform transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
             fill="none"
@@ -121,19 +119,11 @@ const TemplateSelector = ({ currentTemplate, onTemplateChange }) => {
 
       {/* Template Grid */}
       <div
-        className={`transition-all duration-300 ease-out ${expanded ? "opacity-100 max-h-[2000px]" : "opacity-0 max-h-0 overflow-hidden"
-          }`}
+        className={`transition-all duration-500 ease-out ${
+          expanded ? "opacity-100 max-h-[2000px]" : "opacity-0 max-h-0 overflow-hidden"
+        }`}
       >
-        <div
-          className="
-            grid 
-            grid-cols-1 
-            sm:grid-cols-2 
-            lg:grid-cols-4 
-            gap-4 
-            px-1 sm:px-2
-          "
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {templates.map((t) => {
             const selected = currentTemplate === t.id;
 
@@ -142,110 +132,151 @@ const TemplateSelector = ({ currentTemplate, onTemplateChange }) => {
                 key={t.id}
                 onClick={() => handleSelect(t)}
                 className={`
-                  relative p-4 rounded-2xl cursor-pointer
-                  bg-gradient-to-tr ${t.gradient} text-white
-                  transition-all duration-300
-                  hover:scale-[1.02] hover:shadow-xl
-                  ${selected ? "scale-[1.03] shadow-2xl ring-2 ring-white/40" : ""}
+                  group relative cursor-pointer transition-all duration-300
+                  ${selected ? "scale-105 z-10" : "hover:scale-105"}
                 `}
-                style={{
-                  boxShadow: selected
-                    ? "0 12px 32px rgba(0,0,0,0.25)"
-                    : "0 6px 18px rgba(0,0,0,0.12)",
-                }}
               >
-                {/* Icon + Title */}
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-2xl">
-                    {t.icon}
+                {/* Card */}
+                <div
+                  className={`
+                    relative overflow-hidden rounded-2xl p-6
+                    bg-gradient-to-br ${t.gradient}
+                    shadow-lg hover:shadow-2xl
+                    transition-all duration-300
+                    ${selected ? "ring-4 ring-white/50 shadow-2xl" : ""}
+                  `}
+                >
+                  {/* Background pattern */}
+                  <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full -mr-16 -mt-16" />
+                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-white rounded-full -ml-12 -mb-12" />
                   </div>
-                  <div>
-                    <div className="text-sm font-semibold">{t.name}</div>
-                    <div className="text-[10px] opacity-80">{t.desc}</div>
+
+                  {/* Content */}
+                  <div className="relative">
+                    {/* Icon */}
+                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                      <span className="text-3xl">{t.icon}</span>
+                    </div>
+
+                    {/* Title & Description */}
+                    <h3 className="text-xl font-black text-white mb-1">{t.name}</h3>
+                    <p className="text-white/80 text-sm mb-4">{t.desc}</p>
+
+                    {/* Badge */}
+                    <span className="inline-block px-3 py-1 text-xs bg-white/20 backdrop-blur-sm rounded-full font-bold text-white">
+                      {t.badge}
+                    </span>
+
+                    {/* Designer Credit */}
+                    {t.designer ? (
+                      <div className="mt-4 pt-4 border-t border-white/20">
+                        <a
+                          href={t.designer.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-xs text-white/80 hover:text-white transition-colors duration-300 flex items-center gap-1"
+                        >
+                          <span>👨‍💻</span>
+                          <span>by {t.designer.name}</span>
+                        </a>
+                      </div>
+                    ) : (
+                      <div className="mt-4 pt-4 border-t border-white/20">
+                        <span className="text-xs text-white/60">Coming Soon</span>
+                      </div>
+                    )}
                   </div>
-                </div>
 
-                {/* Badge */}
-                <span className="px-2 py-1 text-[10px] bg-white/20 rounded-full font-bold">
-                  {t.badge}
-                </span>
+                  {/* Locked Overlay */}
+                  {t.locked && (
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                      <div className="text-center">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-full mb-3">
+                          <span className="text-3xl">🔒</span>
+                        </div>
+                        <p className="text-white font-bold text-lg">Coming Soon</p>
+                        <p className="text-white/70 text-xs mt-1">Stay tuned!</p>
+                      </div>
+                    </div>
+                  )}
 
-                {/* Designer link */}
-                <div className="mt-3 text-xs">
-                  {t.designer ? (
-                    <a
-                      href={t.designer.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="
-                        text-xs font-medium
-                        text-white/90
-                        hover:text-white
-                        hover:bg-white/20
-                        px-2 py-1 
-                        rounded-lg
-                        transition
-                      "
-                      style={{ textDecoration: "none" }}
-                    >
-                      Designed by {t.designer.name}
-                    </a>
-                  ) : (
-                    <span className="opacity-80 text-xs">Upcoming</span>
+                  {/* Selected Badge */}
+                  {selected && !t.locked && (
+                    <div className="absolute top-4 right-4">
+                      <div className="bg-white text-purple-600 rounded-full px-3 py-1 text-xs font-black shadow-lg flex items-center gap-1">
+                        <span>✓</span>
+                        <span>Selected</span>
+                      </div>
+                    </div>
                   )}
                 </div>
 
-                {/* Locked Overlay */}
-                {t.locked && (
-                  <div className="absolute inset-0 bg-black/40 rounded-2xl flex items-center justify-center">
-                    <div className="text-white text-center">
-                      <div className="text-lg font-bold">🔒 Locked</div>
-                      <div className="text-xs opacity-90 mt-1">Coming Soon</div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Selected Badge */}
-                {selected && !t.locked && (
-                  <div className="absolute -bottom-3 left-4 bg-white text-primary px-3 py-1 rounded-full text-xs font-bold shadow-md">
-                    Selected
-                  </div>
+                {/* Glow effect for selected */}
+                {selected && (
+                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${t.gradient} opacity-30 blur-xl -z-10`} />
                 )}
               </div>
             );
           })}
         </div>
 
-        <p className="text-center text-xs mt-4 opacity-70">
-          💡 Changes update instantly in preview
-        </p>
+        <div className="text-center mt-6">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20">
+            <span className="text-xl">✨</span>
+            <p className="text-white text-sm font-medium">
+              Preview updates instantly when you select a template
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50 p-4">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl">
-            <h4 className="text-lg font-bold mb-2">{modalContent.title}</h4>
-            <p className="text-sm opacity-80 mb-4">{modalContent.body}</p>
+        <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-md z-50 p-4 animate-fade-in">
+          <div className="bg-white rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl">
+            {/* Modal Header */}
+            <div className="bg-gradient-to-br from-purple-500 to-pink-500 p-6 text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-3">
+                <span className="text-3xl">🔒</span>
+              </div>
+              <h4 className="text-2xl font-black text-white mb-2">{modalContent.title}</h4>
+            </div>
 
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={closeModal}
-                className="px-3 py-2 rounded-full border border-base-300 text-sm"
-              >
-                Close
-              </button>
-              <button
-                onClick={closeModal}
-                className="px-3 py-2 rounded-full bg-primary text-white text-sm"
-              >
-                OK
-              </button>
+            {/* Modal Body */}
+            <div className="p-6">
+              <p className="text-gray-600 text-center mb-6">{modalContent.body}</p>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={closeModal}
+                  className="flex-1 px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-700 font-bold hover:bg-gray-50 transition-all duration-300"
+                >
+                  Got it
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
+
+      <style jsx>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.3s ease-out;
+        }
+      `}</style>
     </div>
   );
 };

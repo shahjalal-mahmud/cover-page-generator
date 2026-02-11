@@ -1,133 +1,116 @@
-import React, { useState, useRef } from 'react';
-import InputForm from '../components/InputForm';
-import CoverPagePreview from '../components/CoverPagePreview';
-import TemplateSelector from '../components/TemplateSelector';
-import DownloadActions from '../components/DownloadActions';
-import Navbar from '../components/Navbar';
-import QuickTips from '../components/QuickTips';
-import Footer from '../components/Footer';
-import FeedbackForm from '../components/FeedbackForm';
+import React, { useState, useRef } from "react";
+import InputForm from "../components/InputForm";
+import CoverPagePreview from "../components/CoverPagePreview";
+import TemplateSelector from "../components/TemplateSelector";
+import DownloadActions from "../components/DownloadActions";
+import Navbar from "../components/Navbar";
+import QuickTips from "../components/QuickTips";
+import Footer from "../components/Footer";
+import FeedbackForm from "../components/FeedbackForm";
 
 const HomePage = ({
   formData,
   currentTemplate,
   isGenerating,
-  theme,
-  onThemeToggle,
   onFormChange,
   onTemplateChange,
-  onClearForm
+  onClearForm,
 }) => {
-  const [activeTab, setActiveTab] = useState('input'); // 'input' or 'preview'
-  const previewRef = useRef(); // Add this ref for DownloadActions
+  const [activeTab, setActiveTab] = useState("input");
+  const previewRef = useRef();
 
-  // Use data-theme attribute on the root div for DaisyUI theme support
   return (
     <div
-      data-theme={theme === 'dark' ? 'dark' : 'light'}
-      className="min-h-screen relative overflow-hidden transition-all duration-700 font-sans"
+      className="min-h-screen relative overflow-hidden font-sans text-white"
+      style={{
+        background:
+          "linear-gradient(135deg, #0f0c29 0%, #1e1b4b 50%, #111827 100%)",
+      }}
     >
-      {/* 🌟 Soft Gradient Background with Floating Blobs */}
-      <div className="absolute inset-0 bg-base-100/30 backdrop-blur-3xl" />
-      <div className={`
-        absolute -top-32 -left-32 w-96 h-96 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob
-        ${theme === 'dark' ? 'bg-pink-700' : 'bg-pink-300'}
-      `} />
-      <div className={`
-        absolute -bottom-16 -right-16 w-80 h-80 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000
-        ${theme === 'dark' ? 'bg-blue-700' : 'bg-blue-300'}
-      `} />
-      <div className={`
-        absolute top-1/4 right-1/4 w-72 h-72 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000
-        ${theme === 'dark' ? 'bg-yellow-700' : 'bg-yellow-300'}
-      `} />
+      {/* Background Glow */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-600/20 rounded-full blur-3xl animate-pulse" />
+        <div
+          className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "1s" }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "2s" }}
+        />
+      </div>
 
-      {/* 🚀 Header: Super Modern and Cute */}
-      <Navbar theme={theme} onThemeToggle={onThemeToggle} />
+      <Navbar />
 
       <main className="relative container mx-auto px-4 sm:px-6 py-8 sm:py-12 z-10">
+        {/* Hero */}
+        <div className="text-center mb-12 animate-fade-in">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black mb-4">
+            Create Your Perfect
+            <span className="block bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
+              Cover Page
+            </span>
+          </h1>
 
-        {/* Template Selector Section */}
-        <section className="mb-8 sm:mb-12">
-          <div className="text-center mb-6">
-            <h2 className="text-3xl sm:text-4xl font-bold text-base-content/80 mb-2">
-              <span className="text-secondary">Choose</span> Your Vibe 🎨
-            </h2>
-            <p className="text-base-content/70 text-lg">Select a template to craft your perfect academic cover.</p>
+          <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-6">
+            Generate professional academic cover pages in seconds.
+          </p>
+
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            {["30s", "3", "100%"].map((item, i) => (
+              <div
+                key={i}
+                className="bg-white/5 backdrop-blur-xl rounded-2xl px-6 py-3 border border-white/10"
+              >
+                <div className="text-2xl font-bold">{item}</div>
+                <div className="text-xs text-gray-400">
+                  {i === 0
+                    ? "Generation Time"
+                    : i === 1
+                    ? "Fields to Fill"
+                    : "Free Forever"}
+                </div>
+              </div>
+            ))}
           </div>
+        </div>
+
+        {/* Template */}
+        <section className="mb-12">
           <TemplateSelector
             currentTemplate={currentTemplate}
             onTemplateChange={onTemplateChange}
           />
         </section>
 
-        {/* Beautiful Tabs Navigation */}
+        {/* Tabs */}
         <div className="flex justify-center mb-8">
-          <div className="bg-base-200/50 backdrop-blur-lg rounded-2xl p-2 border border-base-300/50 shadow-lg">
-            <div className="flex space-x-2">
-              {/* Input Form Tab */}
-              <button
-                onClick={() => setActiveTab('input')}
-                className={`
-                  relative px-6 py-3 rounded-xl font-semibold transition-all duration-500 flex items-center gap-3
-                  ${activeTab === 'input'
-                    ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg transform scale-105'
-                    : 'bg-transparent text-base-content/70 hover:text-base-content hover:bg-base-300/30'
-                  }
-                `}
-              >
-                <span className="text-lg">📝</span>
-                Input Form
-                {activeTab === 'input' && (
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-secondary rounded-full animate-pulse"></div>
-                )}
-              </button>
-
-              {/* Preview Tab */}
-              <button
-                onClick={() => setActiveTab('preview')}
-                className={`
-                  relative px-6 py-3 rounded-xl font-semibold transition-all duration-500 flex items-center gap-3
-                  ${activeTab === 'preview'
-                    ? 'bg-gradient-to-r from-accent to-purple-500 text-white shadow-lg transform scale-105'
-                    : 'bg-transparent text-base-content/70 hover:text-base-content hover:bg-base-300/30'
-                  }
-                `}
-              >
-                <span className="text-lg">👁️</span>
-                Live Preview
-                {activeTab === 'preview' && (
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-purple-400 rounded-full animate-pulse"></div>
-                )}
-              </button>
+          <div className="bg-white/5 backdrop-blur-xl rounded-full p-1.5 border border-white/10 shadow-2xl">
+            <div className="flex gap-2">
+              {["input", "preview"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-8 py-4 rounded-full font-bold text-sm sm:text-base transition-all duration-300 ${
+                    activeTab === tab
+                      ? "bg-gradient-to-r from-indigo-600 to-purple-700 text-white shadow-lg"
+                      : "text-gray-300 hover:bg-white/10"
+                  }`}
+                >
+                  {tab === "input" ? "✏️ Fill Details" : "👁️ Preview"}
+                </button>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Tab Content with Smooth Animations */}
+        {/* Content */}
         <div className="relative">
-          {/* Input Form Tab Content */}
-          <div className={`
-            transition-all duration-700 ease-in-out transform
-            ${activeTab === 'input'
-              ? 'opacity-100 translate-y-0 scale-100'
-              : 'absolute opacity-0 translate-y-8 scale-95 pointer-events-none'
-            }
-          `}>
+          {/* Input */}
+          {activeTab === "input" && (
             <div className="max-w-4xl mx-auto">
-              <div className="card bg-gradient-to-br from-purple-50 to-pink-50 shadow-2xl w-full border border-purple-200 rounded-3xl overflow-hidden">
-                <div className="card-body p-4 md:p-8">
-                  {/* Header */}
-                  <div className="text-center mb-8">
-                    <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                      <span className="text-2xl">📝</span>
-                    </div>
-                    <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                      Fill Your Details
-                    </h2>
-                    <p className="text-gray-600 mt-2">Enter your information to create the perfect cover page</p>
-                  </div>
-
+              <div className="bg-white/5 backdrop-blur-xl shadow-2xl rounded-3xl border border-white/10 overflow-hidden">
+                <div className="p-6 md:p-10">
                   <InputForm
                     formData={formData}
                     onFormChange={onFormChange}
@@ -136,88 +119,42 @@ const HomePage = ({
                 </div>
               </div>
             </div>
-          </div>
+          )}
 
-          {/* Preview Tab Content */}
-          <div className={`
-            transition-all duration-700 ease-in-out transform
-            ${activeTab === 'preview'
-              ? 'opacity-100 translate-y-0 scale-100'
-              : 'absolute opacity-0 translate-y-8 scale-95 pointer-events-none'
-            }
-          `}>
+          {/* Preview */}
+          {activeTab === "preview" && (
             <div className="max-w-6xl mx-auto">
-              <div className="card w-full p-4 sm:p-6 rounded-3xl shadow-2xl transition-all duration-500
-                            bg-base-100/50 backdrop-blur-xl border border-secondary/20
-                            transform hover:shadow-secondary/30 dark:hover:shadow-primary/30">
-                {/* Preview Header */}
-                <div className="text-center mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-r from-green-400 to-blue-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                    <span className="text-2xl">👁️</span>
-                  </div>
-                  <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                    Live Preview
-                  </h2>
-                  <p className="text-gray-600 mt-2">See your cover page come to life in real-time ✨</p>
-                </div>
+              <div className="bg-white/5 backdrop-blur-xl shadow-2xl rounded-3xl border border-white/10 overflow-hidden relative">
+                <div className="p-6">
+                  <CoverPagePreview
+                    formData={formData}
+                    template={currentTemplate}
+                    previewRef={previewRef}
+                  />
 
-                <CoverPagePreview
-                  formData={formData}
-                  template={currentTemplate}
-                  previewRef={previewRef} // Pass the ref to CoverPagePreview
-                />
-
-                {/* Enhanced Generating Indicator with Soft Glow Animation (Glassmorphism) */}
-                {isGenerating && (
-                  <div className="card absolute inset-0 bg-base-100/80 backdrop-blur-xl border border-primary/30 shadow-2xl rounded-3xl transition-opacity duration-300">
-                    <div className="card-body items-center justify-center p-8">
-                      <div className="relative">
-                        <div className="loading loading-ring loading-lg text-primary"></div>
-                        <div className="absolute inset-0 w-full h-full flex items-center justify-center">
-                          <div className="w-16 h-16 bg-secondary rounded-full opacity-50 blur-xl animate-pulse-slow"></div>
-                        </div>
-                        <span className="absolute inset-0 flex items-center justify-center text-4xl animate-bounce text-base-content">
-                          ✍️
-                        </span>
-                      </div>
-                      <div className="text-center mt-6">
-                        <p className="font-extrabold text-2xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent animate-text-glow">
-                          Crafting Your Masterpiece...
+                  {isGenerating && (
+                    <div className="absolute inset-0 bg-black/70 backdrop-blur-xl flex items-center justify-center z-50">
+                      <div className="text-center">
+                        <div className="w-20 h-20 border-4 border-indigo-400 border-t-transparent rounded-full animate-spin mx-auto mb-6" />
+                        <p className="text-lg font-semibold text-indigo-300">
+                          Creating Your Cover...
                         </p>
-                        <p className="text-sm opacity-70 mt-1">Almost there, just a little pookie magic!</p>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
-        {/* Quick Switch Hint */}
-        <div className="text-center mt-6">
-          <p className="text-base-content/60 text-sm flex items-center justify-center gap-2">
-            <span className="animate-pulse">💡</span>
-            Switch between tabs to {activeTab === 'input' ? 'see your preview' : 'edit your information'}
-          </p>
-        </div>
-
-        {/* 📥 Download & Share Section - Added before Quick Tips */}
-        <section className="mt-16 sm:mt-20">
-          <div className="text-center mb-8">
-            <h3 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2">
-              <span className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">
-                Download & Share 🚀
-              </span>
-            </h3>
-            <p className="text-lg text-base-content/70">Get your cover page in multiple formats and share it easily!</p>
-          </div>
-
-          <div className="max-w-6xl mx-auto">
-            <div className="card bg-gradient-to-br from-green-50 to-blue-50 shadow-2xl w-full border border-green-200 rounded-3xl overflow-hidden">
-              <div className="card-body p-6 md:p-8">
-                <DownloadActions 
-                  previewRef={previewRef} 
+        {/* Download */}
+        <section className="mt-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white/5 backdrop-blur-xl shadow-2xl rounded-3xl border border-white/10 overflow-hidden">
+              <div className="p-6 md:p-10">
+                <DownloadActions
+                  previewRef={previewRef}
                   formData={formData}
                 />
               </div>
@@ -225,13 +162,28 @@ const HomePage = ({
           </div>
         </section>
 
-        {/* 💖 Rebuilt Quick Tips & Features Section (Cuter Cards) */}
         <QuickTips />
-
-        {/* 🎀 Enhanced Footer: With Prominent Company Branding */}
         <Footer />
       </main>
+
       <FeedbackForm />
+
+      <style jsx>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.8s ease-out;
+        }
+      `}</style>
     </div>
   );
 };
