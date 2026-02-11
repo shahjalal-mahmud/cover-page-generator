@@ -51,6 +51,13 @@ function App() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
+    
+    // Update body background for smooth theme transition
+    if (theme === 'dark') {
+      document.body.style.background = 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)';
+    } else {
+      document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)';
+    }
   }, [theme]);
 
   const toggleTheme = () => {
@@ -72,17 +79,30 @@ function App() {
   if (typeof window !== 'undefined') {
     window.generateCoverPreview = (data) => {
       setIsGenerating(true);
+      
+      // Smooth scroll to preview
+      setTimeout(() => {
+        const previewSection = document.getElementById('preview-section');
+        if (previewSection) {
+          previewSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      }, 100);
+
+      // Reset generating state
       setTimeout(() => {
         setIsGenerating(false);
-        document.getElementById('preview-section')?.scrollIntoView({ 
-          behavior: 'smooth' 
-        });
       }, 500);
     };
   }
 
   return (
-    <div data-theme={theme}>
+    <div 
+      data-theme={theme}
+      className="min-h-screen transition-colors duration-500"
+    >
       <HomePage
         formData={formData}
         currentTemplate={currentTemplate}
