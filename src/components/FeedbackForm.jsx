@@ -81,7 +81,7 @@ const FeedbackForm = () => {
         <button
           key={star}
           type="button"
-          className={`text-4xl transition-all duration-200 transform hover:scale-125 ${
+          className={`text-3xl sm:text-4xl transition-all duration-200 transform hover:scale-125 ${
             star <= (hoverRating || rating)
               ? 'text-yellow-400 drop-shadow-lg'
               : 'text-gray-300'
@@ -98,44 +98,58 @@ const FeedbackForm = () => {
 
   return (
     <>
-      {/* Floating Feedback Button - Redesigned */}
+      {/* Floating Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-8 right-8 z-50 group"
+        className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 group"
         aria-label="Give Feedback"
       >
-        {/* Animated glow */}
         <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 blur-xl opacity-50 group-hover:opacity-100 animate-pulse" />
         
-        {/* Button */}
-        <div className="relative w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-2xl transform transition-all duration-300 group-hover:scale-110 group-active:scale-95">
-          <span className="text-3xl group-hover:rotate-12 transition-transform duration-300">💬</span>
-        </div>
-
-        {/* Tooltip */}
-        <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-          Send Feedback
+        <div className="relative w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 group-hover:scale-110 group-active:scale-95">
+          <span className="text-2xl sm:text-3xl group-hover:rotate-12 transition-transform duration-300">💬</span>
         </div>
       </button>
 
-      {/* Feedback Modal - Redesigned */}
+      {/* Modal */}
       {isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in">
-          <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden">
-            {/* Header with gradient */}
-            <div className="relative bg-gradient-to-br from-purple-500 via-pink-500 to-purple-600 p-8 text-center overflow-hidden">
-              {/* Decorative circles */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16" />
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-12 -mb-12" />
+          
+          <div className="
+            relative w-full max-w-md sm:max-w-lg
+            max-h-[90vh]
+            bg-white
+            rounded-3xl
+            shadow-2xl
+            flex flex-col
+            overflow-hidden
+          ">
+
+            {/* Close Button */}
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/30 transition flex items-center justify-center text-white font-bold"
+            >
+              ✕
+            </button>
+
+            {/* Header */}
+            <div className="relative bg-gradient-to-br from-purple-500 via-pink-500 to-purple-600 px-6 sm:px-8 py-6 sm:py-8 text-center overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -mr-12 -mt-12" />
+              <div className="absolute bottom-0 left-0 w-20 h-20 bg-white/10 rounded-full -ml-10 -mb-10" />
               
               <div className="relative">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl mb-4">
-                  <span className="text-4xl">{isSubmitted ? '🎉' : '💬'}</span>
+                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-white/20 backdrop-blur-sm rounded-2xl mb-3 sm:mb-4">
+                  <span className="text-3xl sm:text-4xl">
+                    {isSubmitted ? '🎉' : '💬'}
+                  </span>
                 </div>
-                <h3 className="text-3xl font-black text-white mb-2">
+
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-1">
                   {isSubmitted ? 'Thank You!' : 'We Value Your Feedback'}
                 </h3>
-                <p className="text-white/90 text-sm">
+
+                <p className="text-white/90 text-xs sm:text-sm">
                   {isSubmitted 
                     ? 'Your feedback helps us improve!'
                     : 'Help us make CoverMagic even better'
@@ -144,21 +158,23 @@ const FeedbackForm = () => {
               </div>
             </div>
 
-            {/* Form Content */}
-            <div className="p-8">
+            {/* Scrollable Body */}
+            <div className="flex-1 overflow-y-auto px-6 sm:px-8 py-6">
               {!isSubmitted ? (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Star Rating */}
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  
                   <div>
                     <label className="block text-sm font-bold text-gray-700 mb-3 text-center">
                       How would you rate your experience? *
                     </label>
+
                     <StarRating
                       rating={rating}
                       setRating={setRating}
                       hoverRating={hoverRating}
                       setHoverRating={setHoverRating}
                     />
+
                     {rating === 0 && (
                       <p className="text-red-500 text-xs text-center mt-2">
                         ⚠️ Please select a rating
@@ -166,52 +182,48 @@ const FeedbackForm = () => {
                     )}
                   </div>
 
-                  {/* Name (Optional) */}
                   <div>
-                    <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-2">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
                       Your Name <span className="text-gray-400 font-normal">(Optional)</span>
                     </label>
                     <input
                       type="text"
-                      id="name"
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
                       placeholder="Enter your name..."
                     />
                   </div>
 
-                  {/* Description (Optional) */}
                   <div>
-                    <label htmlFor="description" className="block text-sm font-bold text-gray-700 mb-2">
+                    <label className="block text-sm font-bold text-gray-700 mb-2">
                       Your Feedback <span className="text-gray-400 font-normal">(Optional)</span>
                     </label>
                     <textarea
-                      id="description"
                       name="description"
                       value={formData.description}
                       onChange={handleInputChange}
                       rows="4"
-                      className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 resize-none"
-                      placeholder="Tell us what you think, report a bug, or share your ideas..."
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition resize-none"
+                      placeholder="Tell us what you think..."
                     />
                   </div>
 
-                  {/* Buttons */}
-                  <div className="flex gap-3 pt-2">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-2">
                     <button
                       type="button"
                       onClick={() => setIsOpen(false)}
-                      className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-bold transition-all duration-300 hover:bg-gray-200 transform hover:scale-105"
+                      className="w-full sm:flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition"
                       disabled={isSubmitting}
                     >
                       Cancel
                     </button>
+
                     <button
                       type="submit"
                       disabled={isSubmitting || !rating}
-                      className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold transition-all duration-300 hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                      className="w-full sm:flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold transition hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? (
                         <span className="flex items-center justify-center gap-2">
@@ -225,20 +237,22 @@ const FeedbackForm = () => {
                   </div>
                 </form>
               ) : (
-                /* Success Message */
                 <div className="text-center py-6">
-                  <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full mb-6 shadow-lg">
-                    <span className="text-4xl">✨</span>
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full mb-5 shadow-lg">
+                    <span className="text-3xl">✨</span>
                   </div>
-                  <h4 className="text-2xl font-black text-gray-800 mb-3">
+
+                  <h4 className="text-xl font-black text-gray-800 mb-3">
                     Feedback Received!
                   </h4>
-                  <p className="text-gray-600 mb-6">
-                    Thank you for helping us improve CoverMagic. You're awesome! 🚀
+
+                  <p className="text-gray-600 mb-6 text-sm">
+                    Thank you for helping us improve CoverMagic. 🚀
                   </p>
+
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold transition-all duration-300 hover:shadow-lg transform hover:scale-105"
+                    className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold hover:shadow-lg transition"
                   >
                     Close
                   </button>
@@ -262,7 +276,7 @@ const FeedbackForm = () => {
         }
 
         .animate-fade-in {
-          animation: fade-in 0.3s ease-out;
+          animation: fade-in 0.25s ease-out;
         }
       `}</style>
     </>
