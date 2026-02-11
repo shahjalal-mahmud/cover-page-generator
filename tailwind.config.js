@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: "class", // IMPORTANT
   content: [
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -7,6 +8,8 @@ export default {
   theme: {
     extend: {},
   },
-  // eslint-disable-next-line no-undef
   plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["dark"], // ONLY DARK
+  },
 };
