@@ -9,7 +9,6 @@ const DownloadActions = ({ previewRef, formData }) => {
   const [copied, setCopied] = useState(false);
   const [activeAction, setActiveAction] = useState('');
 
-  // Optimized image generation function
   const generateImage = async (format = 'png', quality = 0.8) => {
     if (!previewRef.current) {
       throw new Error("Preview not ready!");
@@ -17,7 +16,6 @@ const DownloadActions = ({ previewRef, formData }) => {
 
     const element = previewRef.current;
     
-    // Optimize images before capture
     const images = element.querySelectorAll('img');
     images.forEach(img => {
       img.loading = 'eager';
@@ -26,18 +24,17 @@ const DownloadActions = ({ previewRef, formData }) => {
     if (format === 'jpeg') {
       return await toJpeg(element, {
         quality: quality,
-        pixelRatio: 1.5, // Reduced from 3
+        pixelRatio: 1.5,
         backgroundColor: '#ffffff',
         cacheBust: false,
         filter: (node) => {
-          // Skip optimization for certain elements if needed
           return true;
         }
       });
     } else {
       return await toPng(element, {
         quality: quality,
-        pixelRatio: 1.5, // Reduced from 3
+        pixelRatio: 1.5,
         backgroundColor: '#ffffff',
         cacheBust: false
       });
@@ -69,14 +66,12 @@ const DownloadActions = ({ previewRef, formData }) => {
     setActiveAction('pdf');
 
     try {
-      // Use JPEG for PDF to reduce file size significantly
       const dataUrl = await generateImage('jpeg', 0.85);
 
       const pdf = new jsPDF("portrait", "pt", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
 
-      // Add JPEG image to PDF
       pdf.addImage(dataUrl, "JPEG", 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
 
       const fileName = `cover_page_${formData.studentName || 'document'}.pdf`;
@@ -105,7 +100,7 @@ const DownloadActions = ({ previewRef, formData }) => {
     setActiveAction('email');
 
     try {
-      const dataUrl = await generateImage('jpeg', 0.7); // Lower quality for email
+      const dataUrl = await generateImage('jpeg', 0.7);
 
       const subject = encodeURIComponent(`Cover Page - ${formData.documentType || 'Document'}`);
       const body = encodeURIComponent(
@@ -115,8 +110,6 @@ const DownloadActions = ({ previewRef, formData }) => {
         `Best regards,\n${formData.studentName || 'Student'}`
       );
 
-      // For email, we'd typically upload to a server and share the link
-      // This is a simplified version
       const mailtoLink = `mailto:?subject=${subject}&body=${body}`;
       window.location.href = mailtoLink;
     } catch (error) {
@@ -137,7 +130,7 @@ const DownloadActions = ({ previewRef, formData }) => {
         `Check out my ${formData.documentType || 'document'} cover page!\n` +
         `Student: ${formData.studentName || 'N/A'}\n` +
         `Course: ${formData.courseTitle || 'N/A'}\n` +
-        `Generated via Cover Page Maker`
+        `Generated via CoverMagic ✨`
       );
 
       const whatsappLink = `https://wa.me/?text=${text}`;
@@ -170,7 +163,6 @@ const DownloadActions = ({ previewRef, formData }) => {
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       console.error("Copy failed:", error);
-      // Fallback for browsers that don't support clipboard API
       const fallbackCopy = async () => {
         const dataUrl = await generateImage('png', 0.8);
         const input = document.createElement('input');
@@ -194,110 +186,143 @@ const DownloadActions = ({ previewRef, formData }) => {
     }
   };
 
-  // Rest of your JSX remains the same...
   return (
-    <div className="w-full">
+    <div className="w-full space-y-8">
       {/* Loading Overlay */}
       {isGenerating && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="bg-white rounded-2xl p-6 shadow-2xl flex flex-col items-center gap-4">
-            <div className="loading loading-spinner loading-lg text-primary"></div>
-            <p className="text-lg font-semibold text-gray-700">
-              {activeAction === 'pdf' && 'Creating PDF... 📄'}
-              {activeAction === 'png' && 'Creating PNG... 🖼️'}
-              {activeAction === 'email' && 'Preparing email... 📧'}
-              {activeAction === 'whatsapp' && 'Opening WhatsApp... 💚'}
-              {activeAction === 'copy' && 'Copying to clipboard... 📋'}
-              {activeAction === 'print' && 'Opening printer... 🖨️'}
-            </p>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center">
+          <div className="bg-white rounded-3xl p-8 shadow-2xl flex flex-col items-center gap-4 max-w-sm mx-4">
+            <div className="relative">
+              <div className="w-20 h-20 border-8 border-purple-200 border-t-purple-600 rounded-full animate-spin" />
+              <span className="absolute inset-0 flex items-center justify-center text-3xl">
+                {activeAction === 'pdf' && '📄'}
+                {activeAction === 'png' && '🖼️'}
+                {activeAction === 'email' && '📧'}
+                {activeAction === 'whatsapp' && '💚'}
+                {activeAction === 'copy' && '📋'}
+                {activeAction === 'print' && '🖨️'}
+              </span>
+            </div>
+            <div className="text-center">
+              <p className="text-xl font-bold text-gray-800 mb-1">
+                {activeAction === 'pdf' && 'Creating PDF...'}
+                {activeAction === 'png' && 'Creating PNG...'}
+                {activeAction === 'email' && 'Preparing email...'}
+                {activeAction === 'whatsapp' && 'Opening WhatsApp...'}
+                {activeAction === 'copy' && 'Copying to clipboard...'}
+                {activeAction === 'print' && 'Opening printer...'}
+              </p>
+              <p className="text-sm text-gray-500">Just a moment!</p>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Main Actions Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-        {/* Download PDF */}
-        <button
-          onClick={generatePDF}
-          disabled={isGenerating}
-          className={`
-            group relative p-4 rounded-2xl font-semibold transition-all duration-300 
-            flex flex-col items-center gap-3 border-2 shadow-lg hover:shadow-xl
-            ${activeAction === 'pdf' 
-              ? 'bg-gradient-to-br from-green-500 to-emerald-500 text-white border-green-400 transform scale-105' 
-              : 'bg-gradient-to-br from-green-100 to-emerald-100 text-green-700 border-green-200 hover:border-green-300 hover:transform hover:scale-105'
-            }
-          `}
-        >
-          <div className={`p-3 rounded-xl ${activeAction === 'pdf' ? 'bg-white/20' : 'bg-white shadow-md'}`}>
-            <FaFilePdf className={`text-2xl ${activeAction === 'pdf' ? 'text-white' : 'text-green-500'}`} />
-          </div>
-          <span className="text-sm font-bold">Download PDF</span>
-          <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-ping opacity-75"></div>
-        </button>
+      {/* Main Download Actions */}
+      <div>
+        <h3 className="text-xl font-black text-gray-800 mb-4 flex items-center gap-2">
+          <FiDownload className="text-purple-600" />
+          Download Your Cover Page
+        </h3>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Download PDF */}
+          <button
+            onClick={generatePDF}
+            disabled={isGenerating}
+            className={`
+              group relative overflow-hidden p-6 rounded-2xl font-bold transition-all duration-300 
+              flex flex-col items-center gap-3 border-2 shadow-lg hover:shadow-2xl transform hover:scale-105
+              ${activeAction === 'pdf' 
+                ? 'bg-gradient-to-br from-red-500 to-pink-500 text-white border-red-400' 
+                : 'bg-gradient-to-br from-red-50 to-pink-50 text-red-700 border-red-200 hover:border-red-300'
+              }
+            `}
+          >
+            {/* Animated background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-red-400 to-pink-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+            
+            <div className={`relative p-4 rounded-xl ${activeAction === 'pdf' ? 'bg-white/20' : 'bg-white shadow-md'}`}>
+              <FaFilePdf className={`text-3xl ${activeAction === 'pdf' ? 'text-white' : 'text-red-500'}`} />
+            </div>
+            <div className="relative">
+              <span className="text-base">Download PDF</span>
+              <p className="text-xs opacity-70 mt-1">For printing</p>
+            </div>
+          </button>
 
-        {/* Download PNG */}
-        <button
-          onClick={generatePNG}
-          disabled={isGenerating}
-          className={`
-            group relative p-4 rounded-2xl font-semibold transition-all duration-300 
-            flex flex-col items-center gap-3 border-2 shadow-lg hover:shadow-xl
-            ${activeAction === 'png' 
-              ? 'bg-gradient-to-br from-blue-500 to-cyan-500 text-white border-blue-400 transform scale-105' 
-              : 'bg-gradient-to-br from-blue-100 to-cyan-100 text-blue-700 border-blue-200 hover:border-blue-300 hover:transform hover:scale-105'
-            }
-          `}
-        >
-          <div className={`p-3 rounded-xl ${activeAction === 'png' ? 'bg-white/20' : 'bg-white shadow-md'}`}>
-            <FaFileImage className={`text-2xl ${activeAction === 'png' ? 'text-white' : 'text-blue-500'}`} />
-          </div>
-          <span className="text-sm font-bold">Download PNG</span>
-          <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-400 rounded-full animate-ping opacity-75"></div>
-        </button>
+          {/* Download PNG */}
+          <button
+            onClick={generatePNG}
+            disabled={isGenerating}
+            className={`
+              group relative overflow-hidden p-6 rounded-2xl font-bold transition-all duration-300 
+              flex flex-col items-center gap-3 border-2 shadow-lg hover:shadow-2xl transform hover:scale-105
+              ${activeAction === 'png' 
+                ? 'bg-gradient-to-br from-blue-500 to-cyan-500 text-white border-blue-400' 
+                : 'bg-gradient-to-br from-blue-50 to-cyan-50 text-blue-700 border-blue-200 hover:border-blue-300'
+              }
+            `}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-cyan-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+            
+            <div className={`relative p-4 rounded-xl ${activeAction === 'png' ? 'bg-white/20' : 'bg-white shadow-md'}`}>
+              <FaFileImage className={`text-3xl ${activeAction === 'png' ? 'text-white' : 'text-blue-500'}`} />
+            </div>
+            <div className="relative">
+              <span className="text-base">Download PNG</span>
+              <p className="text-xs opacity-70 mt-1">For digital use</p>
+            </div>
+          </button>
 
-        {/* Print */}
-        <button
-          onClick={handlePrint}
-          disabled={isGenerating}
-          className={`
-            group relative p-4 rounded-2xl font-semibold transition-all duration-300 
-            flex flex-col items-center gap-3 border-2 shadow-lg hover:shadow-xl
-            ${activeAction === 'print' 
-              ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white border-purple-400 transform scale-105' 
-              : 'bg-gradient-to-br from-purple-100 to-pink-100 text-purple-700 border-purple-200 hover:border-purple-300 hover:transform hover:scale-105'
-            }
-          `}
-        >
-          <div className={`p-3 rounded-xl ${activeAction === 'print' ? 'bg-white/20' : 'bg-white shadow-md'}`}>
-            <FiPrinter className={`text-2xl ${activeAction === 'print' ? 'text-white' : 'text-purple-500'}`} />
-          </div>
-          <span className="text-sm font-bold">Print</span>
-        </button>
+          {/* Print */}
+          <button
+            onClick={handlePrint}
+            disabled={isGenerating}
+            className={`
+              group relative overflow-hidden p-6 rounded-2xl font-bold transition-all duration-300 
+              flex flex-col items-center gap-3 border-2 shadow-lg hover:shadow-2xl transform hover:scale-105
+              ${activeAction === 'print' 
+                ? 'bg-gradient-to-br from-purple-500 to-indigo-500 text-white border-purple-400' 
+                : 'bg-gradient-to-br from-purple-50 to-indigo-50 text-purple-700 border-purple-200 hover:border-purple-300'
+              }
+            `}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-indigo-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+            
+            <div className={`relative p-4 rounded-xl ${activeAction === 'print' ? 'bg-white/20' : 'bg-white shadow-md'}`}>
+              <FiPrinter className={`text-3xl ${activeAction === 'print' ? 'text-white' : 'text-purple-500'}`} />
+            </div>
+            <div className="relative">
+              <span className="text-base">Print</span>
+              <p className="text-xs opacity-70 mt-1">Direct to printer</p>
+            </div>
+          </button>
+        </div>
       </div>
 
       {/* Share Section */}
-      <div className="mb-4">
-        <h3 className="text-lg font-bold text-gray-700 mb-3 flex items-center gap-2">
-          <FiShare2 className="text-purple-500" />
-          Share Your Cover Page
+      <div>
+        <h3 className="text-xl font-black text-gray-800 mb-4 flex items-center gap-2">
+          <FiShare2 className="text-purple-600" />
+          Share With Friends
         </h3>
         
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {/* Email Share */}
           <button
             onClick={shareViaEmail}
             disabled={isGenerating}
             className={`
-              group p-3 rounded-xl font-semibold transition-all duration-300 
-              flex items-center gap-3 border-2 shadow-md hover:shadow-lg
+              group p-4 rounded-xl font-bold transition-all duration-300 
+              flex flex-col items-center gap-2 border-2 shadow-md hover:shadow-lg transform hover:scale-105
               ${activeAction === 'email' 
-                ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white border-red-400 transform scale-105' 
-                : 'bg-gradient-to-r from-red-50 to-pink-50 text-red-700 border-red-200 hover:border-red-300 hover:transform hover:scale-105'
+                ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white border-orange-400' 
+                : 'bg-gradient-to-r from-orange-50 to-red-50 text-orange-700 border-orange-200 hover:border-orange-300'
               }
             `}
           >
-            <FiMail className={`text-xl ${activeAction === 'email' ? 'text-white' : 'text-red-500'}`} />
+            <FiMail className={`text-2xl ${activeAction === 'email' ? 'text-white' : 'text-orange-500'}`} />
             <span className="text-sm">Email</span>
           </button>
 
@@ -306,15 +331,15 @@ const DownloadActions = ({ previewRef, formData }) => {
             onClick={shareViaWhatsApp}
             disabled={isGenerating}
             className={`
-              group p-3 rounded-xl font-semibold transition-all duration-300 
-              flex items-center gap-3 border-2 shadow-md hover:shadow-lg
+              group p-4 rounded-xl font-bold transition-all duration-300 
+              flex flex-col items-center gap-2 border-2 shadow-md hover:shadow-lg transform hover:scale-105
               ${activeAction === 'whatsapp' 
-                ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white border-green-400 transform scale-105' 
-                : 'bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border-green-200 hover:border-green-300 hover:transform hover:scale-105'
+                ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white border-green-400' 
+                : 'bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border-green-200 hover:border-green-300'
               }
             `}
           >
-            <FaWhatsapp className={`text-xl ${activeAction === 'whatsapp' ? 'text-white' : 'text-green-500'}`} />
+            <FaWhatsapp className={`text-2xl ${activeAction === 'whatsapp' ? 'text-white' : 'text-green-500'}`} />
             <span className="text-sm">WhatsApp</span>
           </button>
 
@@ -323,18 +348,18 @@ const DownloadActions = ({ previewRef, formData }) => {
             onClick={copyToClipboard}
             disabled={isGenerating}
             className={`
-              group p-3 rounded-xl font-semibold transition-all duration-300 
-              flex items-center gap-3 border-2 shadow-md hover:shadow-lg
+              group p-4 rounded-xl font-bold transition-all duration-300 
+              flex flex-col items-center gap-2 border-2 shadow-md hover:shadow-lg transform hover:scale-105
               ${activeAction === 'copy' || copied
-                ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400 transform scale-105' 
-                : 'bg-gradient-to-r from-orange-50 to-amber-50 text-orange-700 border-orange-200 hover:border-orange-300 hover:transform hover:scale-105'
+                ? 'bg-gradient-to-r from-yellow-500 to-amber-500 text-white border-yellow-400' 
+                : 'bg-gradient-to-r from-yellow-50 to-amber-50 text-yellow-700 border-yellow-200 hover:border-yellow-300'
               }
             `}
           >
             {copied ? (
-              <FiCheck className="text-xl text-white" />
+              <FiCheck className="text-2xl text-white" />
             ) : (
-              <FiCopy className={`text-xl ${activeAction === 'copy' ? 'text-white' : 'text-orange-500'}`} />
+              <FiCopy className={`text-2xl ${activeAction === 'copy' ? 'text-white' : 'text-yellow-600'}`} />
             )}
             <span className="text-sm">{copied ? 'Copied!' : 'Copy'}</span>
           </button>
@@ -343,23 +368,28 @@ const DownloadActions = ({ previewRef, formData }) => {
           <button
             onClick={() => alert('Share link functionality coming soon! 🌟')}
             disabled={isGenerating}
-            className="group p-3 rounded-xl font-semibold transition-all duration-300 
-                      flex items-center gap-3 border-2 border-indigo-200 shadow-md hover:shadow-lg
+            className="group p-4 rounded-xl font-bold transition-all duration-300 
+                      flex flex-col items-center gap-2 border-2 border-indigo-200 shadow-md hover:shadow-lg
                       bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-700 
-                      hover:border-indigo-300 hover:transform hover:scale-105"
+                      hover:border-indigo-300 transform hover:scale-105"
           >
-            <FiShare2 className="text-xl text-indigo-500" />
-            <span className="text-sm">Share Link</span>
+            <FiShare2 className="text-2xl text-indigo-500" />
+            <span className="text-sm">Link</span>
           </button>
         </div>
       </div>
 
-      {/* Quick Tips */}
-      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-200">
-        <p className="text-sm text-blue-700 text-center flex items-center justify-center gap-2">
-          <span className="text-lg">💡</span>
-          Tip: Download PDF for printing, PNG for digital use!
-        </p>
+      {/* Pro Tip */}
+      <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-5 border-2 border-purple-200">
+        <div className="flex items-start gap-3">
+          <span className="text-2xl">💡</span>
+          <div>
+            <p className="font-bold text-purple-900 mb-1">Pro Tip</p>
+            <p className="text-sm text-purple-700">
+              Download as <strong>PDF</strong> for printing or <strong>PNG</strong> for digital submissions. Both formats maintain high quality!
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
